@@ -144,7 +144,7 @@
 	    </bean>
 		
 	
-###其他
+### 其他
 
 1.disconf.startup.interrupt	读取远程配置文件失败后是否停止容器
 
