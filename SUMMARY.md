@@ -1,15 +1,46 @@
 # 微服务
 
-* [微服务](articles/cservice/1-/)
-    * [产品概述](articles/cservice/1-/Introduction.md)
-    * [产品优势](articles/cservice/1-/advantage.md)
-    * [应用场景](articles/cservice/1-/scenarios.md)
-    * [基础架构](articles/cservice/1-/infrastructure.md)
-    * [产品历程](articles/cservice/1-/course.md)
-* [快速入门](articles/cservice/2-/)
-    * [场景一：如何快速更换导航栏](articles/cservice/2-/scene1.md)
-    * [场景二:  如何开发widget](articles/cservice/2-/scene2.md)
-* [用户手册](articles/cservice/3-/)
+* 产品介绍
+  * [产品概述]()
+  * [产品优势]()
+  * [应用场景]()
+  * [基础架构]()
+  * [产品历程]()
+* 快速入门
+  * [用户注册登录，AK创建](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E5%B9%B3%E5%8F%B0%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C/%E4%B8%80%EF%BC%9A%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%8F%91/1-%E7%94%A8%E6%88%B7%E6%B3%A8%E5%86%8C%E7%99%BB%E5%BD%95%E3%80%81AK%E5%88%9B%E5%BB%BA/manual.md)
+  * [微服务应用创建](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E5%B9%B3%E5%8F%B0%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C/%E4%B8%80%EF%BC%9A%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%8F%91/2-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%BA%94%E7%94%A8%E5%88%9B%E5%BB%BA/manual.md)
+  * [基础工程创建与配置](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E5%B9%B3%E5%8F%B0%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C/%E4%B8%80%EF%BC%9A%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%8F%91/3-%E5%9F%BA%E7%A1%80%E5%B7%A5%E7%A8%8B%E5%88%9B%E5%BB%BA%E4%B8%8E%E9%85%8D%E7%BD%AE/manual.md)
+  *  [接口开发，注解使用](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E5%B9%B3%E5%8F%B0%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C/%E4%B8%80%EF%BC%9A%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%8F%91/4-%E6%8E%A5%E5%8F%A3%E5%BC%80%E5%8F%91%E3%80%81%E6%B3%A8%E8%A7%A3%E4%BD%BF%E7%94%A8/manual.md)
+  *  [服务启动注册，RPC调用](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E5%B9%B3%E5%8F%B0%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C/%E4%B8%80%EF%BC%9A%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%8F%91/5-%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8%E6%B3%A8%E5%86%8C%E3%80%81RPC%E8%B0%83%E7%94%A8/manual.md)
+  *  [服务的搜索和调用](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E5%B9%B3%E5%8F%B0%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C/%E4%B8%80%EF%BC%9A%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%8F%91/6-%E6%9C%8D%E5%8A%A1%E7%9A%84%E6%90%9C%E7%B4%A2%E4%B8%8E%E8%B0%83%E7%94%A8/manual.md)
 
-* [常见问题](articles/cservice/4-/)
-    * [如何开发widget](articles/cservice/4-/question1.md)
+* 用户手册
+  * [应用打包部署，扩容缩容](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E5%B9%B3%E5%8F%B0%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C/%E4%BA%8C%EF%BC%9A%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%AE%A1%E6%8E%A7/1-%E5%BA%94%E7%94%A8%E6%89%93%E5%8C%85%E9%83%A8%E7%BD%B2%E3%80%81%E6%89%A9%E5%AE%B9%E7%BC%A9%E5%AE%B9/manual.md)
+  * [服务的限流和降级](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E5%B9%B3%E5%8F%B0%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C/%E4%BA%8C%EF%BC%9A%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%AE%A1%E6%8E%A7/2-%E6%9C%8D%E5%8A%A1%E7%9A%84%E9%99%90%E6%B5%81%E4%B8%8E%E9%99%8D%E7%BA%A7/flow-control.md)
+  * [服务权限控制](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E5%B9%B3%E5%8F%B0%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C/%E4%BA%8C%EF%BC%9A%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%AE%A1%E6%8E%A7/3-%E6%9C%8D%E5%8A%A1%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/manual.md)
+  * [配置文件管理和监控](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E5%B9%B3%E5%8F%B0%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C/%E4%BA%8C%EF%BC%9A%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%AE%A1%E6%8E%A7/4-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E5%92%8C%E7%9B%91%E6%8E%A7/manual.md)
+  * [服务搜索与查看](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E5%B9%B3%E5%8F%B0%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C/%E4%B8%89%EF%BC%9A%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90/1-%E6%9C%8D%E5%8A%A1%E6%90%9C%E7%B4%A2%E4%B8%8E%E6%9F%A5%E7%9C%8B/manual.md)
+  * [服务链路追踪](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E5%B9%B3%E5%8F%B0%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C/%E4%B8%89%EF%BC%9A%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90/2-%E6%9C%8D%E5%8A%A1%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA/manual.md)
+* 客户端组件
+  * [RPC调用](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%BB%84%E4%BB%B6/RPC%E8%B0%83%E7%94%A8/RPC%E6%A1%86%E6%9E%B6.md) 
+  * [客户端负载均衡](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%BB%84%E4%BB%B6/%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/readme.md)
+  * [数据一致性](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%BB%84%E4%BB%B6/%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/readme.md)
+  * [服务定位](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%BB%84%E4%BB%B6/%E6%9C%8D%E5%8A%A1%E5%AE%9A%E4%BD%8D/%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0.md)
+  * [服务限流、降级、熔断](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%BB%84%E4%BB%B6/%E6%B5%81%E6%8E%A7%EF%BC%88%E9%99%90%E6%B5%81%E3%80%81%E9%99%8D%E7%BA%A7%E3%80%81%E7%86%94%E6%96%AD%EF%BC%89/readme.md)
+  * [服务监控](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%BB%84%E4%BB%B6/%E7%9B%91%E6%8E%A7/readme.md)
+* 控制台
+  * [多套环境](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/%E6%8E%A7%E5%88%B6%E5%8F%B0/%E5%A4%9A%E5%A5%97%E7%8E%AF%E5%A2%83/readme.md) 
+  * [服务依赖分析](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/%E6%8E%A7%E5%88%B6%E5%8F%B0/%E6%9C%8D%E5%8A%A1%E4%BE%9D%E8%B5%96%E5%88%86%E6%9E%90/%E6%9C%8D%E5%8A%A1%E4%BE%9D%E8%B5%96%E5%88%86%E6%9E%90.md)
+  * [服务发现](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/%E6%8E%A7%E5%88%B6%E5%8F%B0/%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/readme.md)
+  * [服务描述信息](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/%E6%8E%A7%E5%88%B6%E5%8F%B0/%E6%9C%8D%E5%8A%A1%E6%8F%8F%E8%BF%B0%E4%BF%A1%E6%81%AF/%E6%9C%8D%E5%8A%A1%E6%8F%8F%E8%BF%B0%E4%BF%A1%E6%81%AF.md)
+  * [服务搜索](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/%E6%8E%A7%E5%88%B6%E5%8F%B0/%E6%9C%8D%E5%8A%A1%E6%90%9C%E7%B4%A2/readme.md)
+  * [服务链路追踪](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/%E6%8E%A7%E5%88%B6%E5%8F%B0/%E6%9C%8D%E5%8A%A1%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA/%E6%9C%8D%E5%8A%A1%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA.md)
+  * [调用权限控制](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/%E6%8E%A7%E5%88%B6%E5%8F%B0/%E8%B0%83%E7%94%A8%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/readme.md)
+  * [调用统计](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/%E6%8E%A7%E5%88%B6%E5%8F%B0/%E8%B0%83%E7%94%A8%E7%BB%9F%E8%AE%A1/readme.md)
+* 服务注册中心
+  * [注册中心](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83.md)
+* 配置中心
+  * [配置中心SDK](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83SDK/%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83sdk.md)
+  * [配置中心服务端](http://git.yonyou.com/mwclient/ms-docs/blob/develop/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E6%9C%8D%E5%8A%A1%E7%AB%AF/%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83.md)
+* 产品常见问题
+  * [常见问题]()
