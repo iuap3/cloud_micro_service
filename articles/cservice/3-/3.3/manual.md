@@ -6,7 +6,7 @@
 
 权限调用流程示意
 
-![](auth.png)
+![](image/auth.png)
 
 
 授权操作步骤：
@@ -15,8 +15,8 @@
 - 展示已授权列表
 
 如图：
-![](addauth1.png)
-![](addauth2.png)
+![](image/addauth1.png)
+![](image/addauth2.png)
 
 
 ## 主要特征 ##
@@ -29,10 +29,10 @@
 ## 常见问题
 当微服务的权限为公有的时候，均可以访问 。
 当微服务权限为私有时候，如果没有授权的应用是不可以访问的
-![](private.png)
+![](image/private.png)
 
 没有权限的访问结果
 
-![](private-noauth.png)
+![](image/private-noauth.png)
 
 加入权限后，才可以访问私有微服务。
