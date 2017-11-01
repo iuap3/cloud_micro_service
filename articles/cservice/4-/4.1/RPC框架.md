@@ -20,7 +20,7 @@ RPC（Remote Procedure Call Protocol）远程过程调用协议。通俗地讲�
 
 ![](image/RPC.png)
 
--RPC过程示意图
+- RPC过程示意图
 
 ![](image/RPCProcess.png)
 
