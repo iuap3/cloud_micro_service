@@ -38,9 +38,9 @@
   * [调用权限控制](articles/cservice/5-/5.7/readme.md)
   * [调用统计](articles/cservice/5-/5.8/readme.md)
 * 服务注册中心
-  * [注册中心]()
+  * [注册中心](articles/cservice/6-/服务注册中心.md)
 * 配置中心
-  * [配置中心SDK]()
-  * [配置中心服务端]()
+  * [配置中心SDK](articles/cservice/7-/7.1/配置中心sdk.md)
+  * [配置中心服务端](articles/cservice/7-/7.2/配置中心.md)
 * 产品常见问题
   * [常见问题]()
