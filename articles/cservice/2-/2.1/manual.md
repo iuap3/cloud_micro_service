@@ -12,11 +12,11 @@
 
 **1：点击右上角个人用户的Access Key**
 
-![](ak.jpg)
+![](image/ak.jpg)
 
 **2：点击“创建”按钮，输入手机验证码进行验证**
 
-![](ak1.PNG)
+![](image/ak1.PNG)
 
 **3：验证成功，创建Access Key**
 
