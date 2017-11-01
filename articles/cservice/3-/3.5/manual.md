@@ -7,7 +7,7 @@
 
 **1：点击微服务的页签进入微服务应用**
 点击微服务的页签进入微服务应用，如图
-![](micro-search1.png)
+![](image/micro-search1.png)
 1.第一次进入的时候，会先获取左侧的接口列表数据，如图
 参数列表：
 
@@ -18,7 +18,7 @@
             envType: envType
         }
 
-![](micro-search2.png)
+![](image/micro-search2.png)
 
 2.默认是拿接口列表的第一条数据，进行当前应用及接口下的服务请求,传入的参数，分页数据size,index，接口名称serverName，应用名称appCode,环境envType
 ```
@@ -38,7 +38,7 @@ let { activePage, data_interface_list, addActive } = this.state;
 **2：点击左侧接口列表**
 
 1.点击左侧接口列表任意一个接口，都会进行当前接口下，服务的请求
-![](micro-search3.png)
+![](image/micro-search3.png)
 
 2.传入的参数:
 参数列表：
@@ -56,7 +56,7 @@ let params = {
 **3：点击搜索框进行搜索**
 
 1.支持回车和图标点击搜索,展示搜索后的内容,如图
-![](micro-search4.png)
+![](image/micro-search4.png)
 
 2.传入的参数:和点击左侧接口操作相比，少了个接口字段serverName的参数的传入
 ```
@@ -76,14 +76,14 @@ let params = {
 **5：视图按钮操作**
 
 1.点击视图,进行卡片和table的切换，数据不变，仅仅只展示效果的变换.如图
-![](micro-search5.png)
+![](image/micro-search5.png)
 
 **6：点击卡片或者table的名称**
 
 1.点击卡片或者table的名称，去往当前服务的详情页，进行数据展示
-![](micro-search6.png)
-![](micro-search7.png)
-![](micro-search8.png)
+![](image/micro-search6.png)
+![](image/micro-search7.png)
+![](image/micro-search8.png)
 
 # 常见问题
 
