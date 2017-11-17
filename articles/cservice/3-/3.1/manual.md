@@ -1,6 +1,5 @@
 # 应用打包部署，扩容缩容
 
-描述：
 ## 应用打包
 
 **使用maven clean package将开发好的ms-client和ms-server打成war包，待部署**
