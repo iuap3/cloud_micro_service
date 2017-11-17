@@ -1,7 +1,5 @@
 # 服务启动注册、RPC调用
 
-描述：
-
 ## 服务启动
 
 **1：使用Jetty启动**
@@ -18,11 +16,16 @@
 
 - 引入helix-appstarter的maven依赖:
 
-    `<artifactId>helix-appstarter</artifactId>
+```
+<dependency>
+    <artifactId>helix-appstarter</artifactId>
     <groupId>com.yonyou.cloud.middleware</groupId>
-    <version>2.2.1-SNAPSHOT</version>`
-
+    <version>2.3.1-RELEASE</version>
+    <scope>provided</scope>
+</dependency>
+```
 - Run As: `com.yonyou.cloud.middleware.YonyouCloudAppStarter`, 启动端口将以`application.properties`属性文件中的`server.port`配置项为准.
+- 附：如果以appstarter的方式启动，请把关于jetty的依赖注释或者删掉，否则会有冲突；`<scope>`中要填写provided。
 
 ## 服务注册
 

@@ -1,4 +1,4 @@
-﻿# 微服务
+# 微服务
 
 * 产品介绍
   * [产品概述](articles/cservice/1-/Introduction.md)
@@ -8,35 +8,19 @@
   * [基础工程创建与配置](articles/cservice/2-/2.3/manual.md)
   * [接口开发，注解使用](articles/cservice/2-/2.4/manual.md)
   * [服务启动注册，RPC调用](articles/cservice/2-/2.5/manual.md)
-  * [服务的搜索和调用](articles/cservice/2-/2.6/manual.md)
-
-* 用户手册
+* 服务调用
+  * [服务的搜索](articles/cservice/2-/2.6/manual.md)
+  * [服务的调用](articles/cservice/2-/2.7/manual.md)
+* 服务管控
   * [应用打包部署，扩容缩容](articles/cservice/3-/3.1/manual.md)
-  * [服务的限流和降级](articles/cservice/3-/3.2/flow-control.md)
   * [服务权限控制](articles/cservice/3-/3.3/manual.md)
+  * [服务的限流和降级](articles/cservice/3-/3.2/flow-control.md)
   * [配置文件管理和监控](articles/cservice/3-/3.4/manual.md)
+* 服务统计
   * [服务搜索与查看](articles/cservice/3-/3.5/manual.md)
   * [服务链路追踪](articles/cservice/3-/3.6/manual.md)
 * 客户端组件
-  * [RPC调用](articles/cservice/4-/4.1/manual.md) 
-  * [服务定位](articles/cservice/4-/4.2/manual.md)
-  * [服务监控](articles/cservice/4-/4.3/readme.md)
-  * [客户端负载均衡](articles/cservice/4-/4.4/readme.md)
-  * [服务限流、降级、熔断](articles/cservice/4-/4.5/readme.md)
-  * [数据一致性](articles/cservice/4-/4.6/readme.md)
-* 控制台
-  * [多套环境](articles/cservice/5-/5.1/readme.md) 
-  * [服务发现](articles/cservice/5-/5.2/readme.md)
-  * [服务链路追踪](articles/cservice/5-/5.3/manual.md)
-  * [服务描述信息](articles/cservice/5-/5.4/manual.md)
-  * [服务搜索](articles/cservice/5-/5.5/readme.md)
-  * [服务依赖分析](articles/cservice/5-/5.6/manual.md)
-  * [调用权限控制](articles/cservice/5-/5.7/readme.md)
-  * [调用统计](articles/cservice/5-/5.8/readme.md)
-* 服务注册中心
-  * [注册中心](articles/cservice/6-/manual.md)
-* 配置中心
-  * [配置中心SDK](articles/cservice/7-/7.1/manual.md)
-  * [配置中心服务端](articles/cservice/7-/7.2/manual.md)
+  * [消息异步处理数据一致性组件](articles/cservice/8-/manual.md)
+  * [消息三阶段提交数据一致性组件](articles/cservice/9-/manual.md)
 * 产品常见问题
   * [常见问题]()
