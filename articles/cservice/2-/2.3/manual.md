@@ -1,6 +1,5 @@
 # 微服务工程创建及配置
 
-描述：
 
 ## 创建基础Maven工程
 
@@ -18,7 +17,7 @@
 <dependency>
     <groupId>com.yonyou.cloud.middleware</groupId>
     <artifactId>mwclient</artifactId>
-    <version>2.1.1-RELEASE</version>
+    <version>2.3.1-RELEASE</version>
 </dependency>
 ```
 

@@ -1,7 +1,4 @@
 # 用户注册登录，Accsee Key创建
-
-描述：
-
 ## 步骤一
 
 **1：登录用友云开发者中心 https://developer.yonyoucloud.com**

@@ -1,7 +1,4 @@
 # 微服务接口开发，注解使用
-
-描述：
-
 ## 接口开发
 用例中的test-server为服务提供方，可以定义接口，并实现（接口可以抽取到服务提供方和调用方共同依赖的工程中，详细步骤可以参考demo工程pt-pubapi依赖相关文档），接口的定义和实现可以参考示例工程中pt-pubapi的IMsMiddleService和pt-server的MsMiddleService
 
