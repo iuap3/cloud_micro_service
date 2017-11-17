@@ -11,4 +11,15 @@ public interface IMsMiddleService {
     public String getDigit();
 }
 ```
-#### 4：注解的参数设置请参考[接口开发，注解使用](../2.4/manual.md)。
+#### 4：@RemoteCall注解的参数设置请参考[接口开发，注解使用](../2.4/manual.md)。
+#### 5：服务调试
+在服务开发阶段，有可能会存在很多不确定的服务，如果想在开发阶段指定调用一个特定的服务实例，可以通过配置指定IP的形式来进行调用
+```
+<bean id="billCodeService" class="com.yonyou.cloud.middleware.rpc.RPCStubBeanFactory">
+    <property name="appCode" value="iuap-saas-billcode-service-cloud"></property>
+    <property name="providerId" value="c87e2267-1001-4c70-bb2a-ab41f3b81aa3"></property>
+    <property name="serviceInterface" value="com.yonyou.uap.billcode.service.IBillCodeService"></property>
+    <property name="serviceIp" value="10.124.1.255" />
+</bean>
+```
+通过进行bean的配置，设置serviceIp为需要调用实例的IP和端口号，可以达到指定调用的目的.
