@@ -20,7 +20,7 @@
   * [服务搜索与查看](articles/cservice/3-/3.5/manual.md)
   * [服务链路追踪](articles/cservice/3-/3.6/manual.md)
 * 客户端组件
-  * [消息异步处理数据一致性组件]()
-  * [消息三阶段提交数据一致性组件]()
+  * [消息异步处理数据一致性组件](articles/cservice/2-/2.8/manual.md)
+  * [消息三阶段提交数据一致性组件](articles/cservice/2-/2.9/manual.md)
 * 产品常见问题
   * [常见问题]()
