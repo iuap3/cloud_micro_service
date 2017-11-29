@@ -1,4 +1,4 @@
-# 微服务接口开发，注解使用
+﻿# 微服务接口开发，注解使用
 ## 接口开发
 用例中的test-server为服务提供方，可以定义接口，并实现（接口可以抽取到服务提供方和调用方共同依赖的工程中，详细步骤可以参考demo工程pt-pubapi依赖相关文档），接口的定义和实现可以参考示例工程中pt-pubapi的IMsMiddleService和pt-server的MsMiddleService
 
@@ -34,7 +34,7 @@ public class MsMiddleService implements IMsMiddleService{
 - alias的作用是注册服务的别名.当注册的服务没有指定名称时，可以使用别名的方式获取到注册的服务。
 - @RemoteCall可以直接在下面红圈内复制：
 
-![](articles/cservice/2-/2.4/manual.md)
+![](image/biaoshi.jpg)
 
 **2: @ApiOperation**
 
