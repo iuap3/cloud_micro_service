@@ -34,7 +34,7 @@ public class MsMiddleService implements IMsMiddleService{
 - alias的作用是注册服务的别名.当注册的服务没有指定名称时，可以使用别名的方式获取到注册的服务。
 - @RemoteCall可以直接在下面红圈内复制：
 
-![](biaoshi.jpg)
+![](articles/cservice/2-/2.4/manual.md)
 
 **2: @ApiOperation**
 
