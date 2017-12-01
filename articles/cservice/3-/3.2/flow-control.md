@@ -1,4 +1,4 @@
-# 服务限流与降级
+﻿# 服务限流与降级
 
 ## 限流参数介绍
 ### 限流主体
@@ -18,22 +18,22 @@ QPS限流是最直观的限流方式，以流量总量的为基准来做限流�
 
 ## 限流设置
 在开发者中心的服务提供者应用详情页面，微服务页签下，可以针对不同的服务API进行限流设置，如下图所示:
-![](https://ws2.sinaimg.cn/large/006tNc79ly1fknpag3xhtj31an0nyh1a.jpg)
+![](image/x1.jpg)
 
-![](https://ws1.sinaimg.cn/large/006tNc79ly1fknpax7m56j31an0nnn6f.jpg)
+![](image/x2.jpg)
 
-![](https://ws4.sinaimg.cn/large/006tNc79ly1fknpbbwp3qj31an0nln6d.jpg)
+![](image/x3.jpg)
 
-![](https://ws1.sinaimg.cn/large/006tNc79ly1fknpbp9ejej31540netdv.jpg)
+![](image/x4.jpg)
 
 从以上路径，找到服务提供的应用，即可方便的对特定的接口方法设置限流阈值。
 
 ## 限流配置查看
 上节指定的限流配置，实际会同步到配置中心的限流配置文件中，然后下发到应用实例上，进行实际的限流控制。
 我们可以在配置中心查看具体的限流配置文件，如下所示：
-![](https://ws4.sinaimg.cn/large/006tNc79ly1fknvr8d1jlj31an0o877w.jpg)
+![](image/x5.jpg)
 
-![](https://ws3.sinaimg.cn/large/006tNc79ly1fknvrs8ev6j31ak0ot0wl.jpg)
+![](image/x6.jpg)
 
 配置的结构包含应用信息、限流唯一标识和限流阈值信息，通过配置文件可以查看我们的限流配置是否生效。还可以在这里配置我们自定义的限流信息。
 
