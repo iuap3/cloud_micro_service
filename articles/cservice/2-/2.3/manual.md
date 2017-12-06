@@ -36,7 +36,7 @@
 **application.properties**
 
 1. access.key和access.secret与申请的Access Key中内容保持一致
-2. spring.profiles.active为应用的环境(开发：dev，测试：test，灰度：gray，生产：online)
+2. spring.profiles.active为应用的环境(开发：dev，测试：test，灰度：stage，生产：online)
 3. spring.application.name为应用的编码
 
 # 常见问题
