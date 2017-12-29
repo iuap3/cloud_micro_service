@@ -16,6 +16,7 @@
   * [服务权限控制](articles/cservice/3-/3.3/manual.md)
   * [服务的限流和降级](articles/cservice/3-/3.2/flow-control.md)
   * [配置文件管理和监控](articles/cservice/3-/3.4/manual.md)
+  * [SSL安全配置](articles/cservice/3-/3.7/manual.md)
 * 服务统计
   * [服务搜索与查看](articles/cservice/3-/3.5/manual.md)
   * [服务链路追踪](articles/cservice/3-/3.6/manual.md)
