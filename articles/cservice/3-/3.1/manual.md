@@ -11,24 +11,39 @@
 ![](image/app-instance.jpg)
 
 ## 时间轴功能
+
 1.对同一环境下的同一个应用按照摘要进行对比
 2.对不同环境之间的同一个应用按照摘要进行对比
 
 
 ## api列表介绍
+
 api列表提供了2种展示方式，包含卡片形式和table形式。展示了当前应用下的接口和方法
+
 1.通过搜索框进行搜索的时候，搜索是按照当前环境和这个应用的code进行检索
+
 ![](image/search-panenl.png)
+
 2.也可以单独点击左侧栏接口列表进行请求，展示的是这个接口下的服务方法
+
 ![](image/interface-chose.png)
+
 3.卡片上展示了服务名称，服务权限，调用次数和正确率，提供了权限，链路，限流，依赖等的入口
+
 ![](image/api-card-show.png)
+
 ![](image/api-table-shpw.png)
+
 注意：只有当私有权限激活的时候才可以进行应用授权
+
 ![](image/auth-prvate.jpg)
+
 4.服务详情参数展示,包含搜索框，方法展示，以及方法携带的参数，类型，是否必须，描述等
+
 ![](image/detail-server.png)
+
 注意：这个搜索框，搜索的是各种方法，然后展示这个方法的信息
+
 ![](image/search-server.jpg)
 
 
