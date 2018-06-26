@@ -32,7 +32,7 @@ constructor-arg 的第一个value为应用的appCode,第二个value为应用的p
 
 #### 3：多服务IP调用
 在开发阶段，同一应用被多名开发或者测试人员注册到Eureka中心，可以通过指定某一IP来调用服务。
-- 在application.properties文件中天添加并修改client.usemock=true(false为禁用)。
+- 在application.properties文件中添加并修改client.usemock=true(false为禁用)。
 - 新建mock.properties文件来指定服务的具体IP地址：
 - mock.ip=127.0.0.1
 - mock.port=8080
