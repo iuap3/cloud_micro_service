@@ -23,90 +23,85 @@
 + 2）当执行异常时，执行降级逻辑
 
 ## 熔断器相关参数设置
-```
-参数	                                             作用                 	                            备注
-errorThresholdPercentage	                         失败率达到多少百分比后熔断	                        默认值：50
-                                                     主要根据依赖重要性进行调整
-forceClosed	                                         是否强制关闭熔断，                                 如果是强依赖，应该设置为 true
-requestVolumeThreshold	                             熔断触发的最小个数/10s	                            默认值：20
-sleepWindowInMilliseconds	                         熔断多少秒后去尝试请求	                            默认值：5000
-commandKey	 	                                     熔断器名称                                         默认值：当前执行方法名
-coreSize	                                         线程池coreSize	                                    默认值：10，线程池隔离有效
-execution.isolation.semaphore.maxConcurrentRequests  信号量最大并发度	                                SEMAPHORE模式有效，默认值：10
-execution.isolation.strategy	                     隔离策略，有THREAD和SEMAPHORE	                    默认使用THREAD模式，以下几种可以使用SEMAPHORE模式： 
-	                                                                                                    只想控制并发度
-	                                                                                                    外部的方法已经做了线程隔离
-	                                                                                                    调用的是本地方法或者可靠度非常高、耗时特别小的方法
-execution.isolation.thread.interruptOnTimeout	     是否打开超时线程中断	                            THREAD模式有效
-execution.isolation.thread.timeoutInMilliseconds     超时时间	                                        默认值：1000
-                                                                                                        在THREAD模式下，达到超时时间，可以中断
-                                                                                                        在SEMAPHORE模式下，会等待执行完成后，再去判断是否超时
-execution.timeout.enabled	                         是否打开超时	 
-fallback.isolation.semaphore.maxConcurrentRequests   fallback最大并发度	                                默认值：10
-groupKey	                                         表示所属的group，一个group共用线程池	            默认值：getClass().getSimpleName();
-maxQueueSize	                                     请求等待队列	                                    默认值：-1
-                                                                                                        如果使用正数，队列将从SynchronizeQueue改为LinkedBlockingQueue
-hystrix.command.default.metrics.                     设置统计的时间窗口值的，毫秒值                     circuit break 的打开会根据1个rolling window的统计来计算。若rolling window被设为10000毫秒，则rolling window会被分成n个buckets，每个bucket包含success，failure，timeout，rejection的次数的统计信息。默认10000
-rollingStats.timeInMilliseconds                      	                                
-hystrix.command.default.metrics.                     设置一个rolling window被划分的数量
-rollingStats.numBuckets 	 
-hystrix.commanddefaultmetricshealthSnapshot.
-intervalInMilliseconds 	                             记录health 快照（用来统计成功和错误绿）的间隔，   默认500ms
-```
+
+	参数	                                                作用                 	                            备注
+	errorThresholdPercentage	                         失败率达到多少百分比后熔断	                        默认值：50
+	                                                     主要根据依赖重要性进行调整
+	forceClosed	                                         是否强制关闭熔断，                                 如果是强依赖，应该设置为 true
+	requestVolumeThreshold	                             熔断触发的最小个数/10s	                            默认值：20
+	sleepWindowInMilliseconds	                         熔断多少秒后去尝试请求	                            默认值：5000
+	commandKey	 	                                     熔断器名称                                         默认值：当前执行方法名
+	coreSize	                                         线程池coreSize	                                    默认值：10，线程池隔离有效
+	execution.isolation.semaphore.maxConcurrentRequests  信号量最大并发度	                                SEMAPHORE模式有效，默认值：10
+	execution.isolation.strategy	                     隔离策略，有THREAD和SEMAPHORE	                    默认使用THREAD模式，以下几种可以使用SEMAPHORE模式： 
+		                                                                                                    只想控制并发度
+		                                                                                                    外部的方法已经做了线程隔离
+		                                                                                                    调用的是本地方法或者可靠度非常高、耗时特别小的方法
+	execution.isolation.thread.interruptOnTimeout	     是否打开超时线程中断	                            THREAD模式有效
+	execution.isolation.thread.timeoutInMilliseconds     超时时间	                                        默认值：1000
+	                                                                                                        在THREAD模式下，达到超时时间，可以中断
+	                                                                                                        在SEMAPHORE模式下，会等待执行完成后，再去判断是否超时
+	execution.timeout.enabled	                         是否打开超时	 
+	fallback.isolation.semaphore.maxConcurrentRequests   fallback最大并发度	                                默认值：10
+	groupKey	                                         表示所属的group，一个group共用线程池	            默认值：getClass().getSimpleName();
+	maxQueueSize	                                     请求等待队列	                                    默认值：-1
+	                                                                                                        如果使用正数，队列将从SynchronizeQueue改为LinkedBlockingQueue
+	hystrix.command.default.metrics.                     设置统计的时间窗口值的，毫秒值                     circuit break 的打开会根据1个rolling window的统计来计算。若rolling window被设为10000毫秒，则rolling window会被分成n个buckets，每个bucket包含success，failure，timeout，rejection的次数的统计信息。默认10000
+	rollingStats.timeInMilliseconds                      	                                
+	hystrix.command.default.metrics.                     设置一个rolling window被划分的数量
+	rollingStats.numBuckets 	 
+	hystrix.commanddefaultmetricshealthSnapshot.
+	intervalInMilliseconds 	                             记录health 快照（用来统计成功和错误绿）的间隔，   默认500ms
+
 ## 注意事项
 目前只支持信号量隔离策略，使用线程隔离策略会存在threadlocal变量问题，因为被隔离的方法在新的线程中调用，如果被隔离的方法中通过threadlocal来传递参数或上下文的话
 会导致被调用方法隔离前后获取threadlocal不对
 ## 示例
-//业务接口
-```
-public interface ILogService<T, M> {
-	public T log(T s);
-	public M log(T s,M m);
-}
-```
-//降级逻辑类，实现业务逻辑接口
-```
-public class Fallback implements ILogService<String, Integer>{
 
-	@Override
-	public String log(String s) {
-		return "error1";
+	//业务接口
+	public interface ILogService<T, M> {
+		public T log(T s);
+		public M log(T s,M m);
+	}
+	
+	//降级逻辑类，实现业务逻辑接口
+	public class Fallback implements ILogService<String, Integer>{
+	
+		@Override
+		public String log(String s) {
+			return "error1";
+		}
+	
+		@Override
+		public Integer log(String s, Integer m) {
+			return -m * 2;
+		}
+	}
+	
+	//业务实现类，模拟耗时操作
+	public class LogServiceImpl<T, M> implements ILogService<T, M> {
+	       @Override
+		public T log(T s) {
+			return s;
+		}
+		@Override
+		public M log(T s, M m) {
+			return m;
+		}
+	
 	}
 
-	@Override
-	public Integer log(String s, Integer m) {
-		return -m * 2;
-	}
-}
-```
-//业务实现类，模拟耗时操作
-```
-public class LogServiceImpl<T, M> implements ILogService<T, M> {
-       @Override
-	public T log(T s) {
-		return s;
-	}
-	@Override
-	public M log(T s, M m) {
-		return m;
-	}
 
-}
+	 //业务对象
+	 ILogService<Integer> logIntService = new LogServiceImpl<Integer>();
+	//根据业务对象获取业务对象代理
+	//降级逻辑，降级逻辑class与业务实现有相同的签名方案，当业务方法出现熔断时，会执行降级逻辑class的相同签名的方法
+	ILogService<Integer> logIntServiceProxy = CirCuitBreakerProxyFactory.<ILogService<Integer>>createCircuitBreakerProxy().createProxy(logIntService, Fallback.cass,
+	
+	//熔断器相关参数设置，递延式参数设置
+	CCSetter.withGroup("groupKey1").andCommandKey("commandkey1").andThreadPoolKey("threadpoolkey1").andCircuitBreakerForceOpen(true));
+	
+	// 通过代理对象执行隔离逻辑，即 执行log方法时将被熔断器隔离执行
+	logIntServiceProxy.log("one");
 
-```
- //业务对象
- ```
- ILogService<Integer> logIntService = new LogServiceImpl<Integer>();
-//根据业务对象获取业务对象代理
-//降级逻辑，降级逻辑class与业务实现有相同的签名方案，当业务方法出现熔断时，会执行降级逻辑class的相同签名的方法
-ILogService<Integer> logIntServiceProxy = 
-				 CirCuitBreakerProxyFactory.<ILogService<Integer>>createCircuitBreakerProxy().createProxy(logIntService, Fallback.cass,
-
-//熔断器相关参数设置，递延式参数设置
-CCSetter.withGroup("groupKey1").andCommandKey("commandkey1").andThreadPoolKey("threadpoolkey1").andCircuitBreakerForceOpen(true));
-
-// 通过代理对象执行隔离逻辑，即 执行log方法时将被熔断器隔离执行
-logIntServiceProxy.log("one");
-
-```
 

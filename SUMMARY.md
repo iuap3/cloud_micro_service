@@ -5,11 +5,12 @@
   * [名词解释](articles/cservice/1-/1.2/manual.md)
   * [版本说明](articles/cservice/1-/1.3/manual.md)
 * 快速入门
-  * [用户注册登录，AK创建](articles/cservice/2-/2.1/manual.md)
-  * [微服务应用创建](articles/cservice/2-/2.2/manual.md)
-  * [基础工程创建与配置](articles/cservice/2-/2.3/manual.md)
-  * [接口开发，注解使用](articles/cservice/2-/2.4/manual.md)
-  * [服务启动注册，RPC调用](articles/cservice/2-/2.5/manual.md)
+  * [用户注册登录](articles/cservice/2-/2.1/manual.md) 
+  * [AK创建](articles/cservice/2-/2.2/manual.md)
+  * [微服务应用创建](articles/cservice/2-/2.3/manual.md)
+  * [基础工程创建与配置](articles/cservice/2-/2.4/manual.md)
+  * [接口开发，注解使用](articles/cservice/2-/2.5/manual.md)
+  * [服务启动注册，RPC调用](articles/cservice/2-/2.6/manual.md)
 * 用户指南
   * [服务基本管理](articles/cservice/3-/3.1/manual.md)
   * [服务稳定性控制](articles/cservice/3-/3.2/manual.md)

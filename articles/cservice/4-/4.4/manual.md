@@ -1,4 +1,3 @@
-
 # EOS异步一致性框架·开发指南
 
 ## 快速入门
@@ -295,44 +294,51 @@ CREATE TABLE `eos_mqsend_success_bak` (
 
 ## 自建RabbitMQ:
 
-EOS依赖RabbitMQ组件, 需启用RabbitMQ的Http认证插件, 由用友云提供Http认证, 认证地址指向: **developer.yonyoucloud.com**
+EOS依赖RabbitMQ组件, 需启用RabbitMQ的Http认证插件, 由用友云提供Http认证, 认证地址指向: **developer.yonyoucloud.com**, 私有云环境指向私有云的ip:port即可, 如:172.20.23.232:8080
 
 ### 以镜像方式搭建:
 
+* docker环境安装:
+		yum install -y docker.x86_64
+		vim /etc/docker/daemon.json
+		输入内容并保存:{ "insecure-registries":["dockerhub.yonyou.com"] }
+		systemctl start docker
+
 * docker镜像名称为: **10.3.15.191:5000/eos-auth-rabbitmq:v1**
 * 启动实例命令为(其中环境变量RABBITMQ\_AUTH\_SERVER为RabbitMQ的认证服务器地址):
-<pre>
-docker run -d --name rabbitmq_eos -p 15672:15672 -p 5672:5672 -e RABBITMQ_NODENAME=rabbitmq_eos -e RABBITMQ_AUTH_SERVER=developer.yonyoucloud.com 10.3.15.191:5000/eos-auth-rabbitmq:v1
-</pre>
+		
+		docker run -d --name rabbitmq_eos -p 15672:15672 -p 5672:5672 -e RABBITMQ_NODENAME=rabbitmq_eos -e RABBITMQ_AUTH_SERVER=developer.yonyoucloud.com dockerhub.yonyou.com/cloud/eos-rabbitmq:v1
+
 
 
 ### 直接安装方式搭建:
 - yum install -y rabbitmq
 - 修改/etc/rabbitmq/enabled\_plugins文件,启用http认证:
-<pre>
-[rabbitmq_management,rabbitmq_auth_backend_http].
-</pre>
+
+		[rabbitmq_management,rabbitmq_auth_backend_http].
+
 - 配置认证地址, 以指向线上环境的/etc/rabbitmq/rabbitmq.conf配置为例:
-<pre>
-loopback_users.guest = false
-listeners.tcp.default = 5672
-hipe_compile = true
-management.listener.port = 15672
-management.listener.ssl = false
 
-auth_backends.1 = http
+		loopback_users.guest = false
+		listeners.tcp.default = 5672
+		hipe_compile = true
+		management.listener.port = 15672
+		management.listener.ssl = false
+		
+		auth_backends.1 = http
+		
+		auth_http.user_path     = http://developer.yonyoucloud.com/eos-mq-auth/auth/user
+		
+		auth_http.vhost_path    = http://developer.yonyoucloud.com/eos-mq-auth/auth/vhost
+		
+		auth_http.resource_path = http://developer.yonyoucloud.com/eos-mq-auth/auth/resource
+		
+		auth_http.topic_path    = http://developer.yonyoucloud.com/eos-mq-auth/auth/topic
 
-auth_http.user_path     = http://developer.yonyoucloud.com/eos-mq-auth/auth/user
-auth_http.vhost_path    = http://developer.yonyoucloud.com/eos-mq-auth/auth/vhost
-auth_http.resource_path = http://developer.yonyoucloud.com/eos-mq-auth/auth/resource
-auth_http.topic_path    = http://developer.yonyoucloud.com/eos-mq-auth/auth/topic
-</pre>
 - 如需更改数据和日志文件目录, 更改/etc/rabbitmq/rabbitmq-env.conf内容以指向具体的目录(选配项):
-<pre>
-MNESIA_BASE=/data/rabbitmq/datas
-LOG_BASE=/data/rabbitmq/logs
-</pre>
-<br>
+
+		MNESIA_BASE=/data/rabbitmq/datas
+		LOG_BASE=/data/rabbitmq/logs
 
 
 ## EOS控制台
@@ -351,58 +357,60 @@ LOG_BASE=/data/rabbitmq/logs
 
 - API类名称: **com.yonyou.cloud.eos.core.service.EosApiService**
 - API-1: 根据查询条件获取发送/接收失败的业务消息:
-<pre>
-com.yonyou.cloud.eos.core.service.EOSApiService.findActionLogApi(String, String, EnumActionLogStatus, int, int, boolean):
-查询条件分别为: 接口名称, 方法名称, 日志状态(异常,重试中,重试锁定,重试失败,重试成功), 分页参数(offset, rows), 是否启用模糊查询.
-</pre> 
+
+		com.yonyou.cloud.eos.core.service.EOSApiService.findActionLogApi(String, String, EnumActionLogStatus, int, int, boolean):
+		查询条件分别为: 接口名称, 方法名称, 日志状态(异常,重试中,重试锁定,重试失败,重试成功), 分页参数(offset, rows), 是否启用模糊查询.
+
 
 - API-2: 根据消息ID获取发送失败的消息详情:  
-<pre>
-com.yonyou.cloud.eos.core.service.EOSApiService.getMQSendByIdApi(String)
-参数为消息ID
-</pre>
+
+		com.yonyou.cloud.eos.core.service.EOSApiService.getMQSendByIdApi(String)
+		参数为消息ID
+
 
 - API-3: 根据消息ID获取接收失败的消息详情:  
-<pre>
-com.yonyou.cloud.eos.core.service.EOSApiService.getMQRecvByIdApi(String)
-参数为消息ID
-</pre>
+
+		com.yonyou.cloud.eos.core.service.EOSApiService.getMQRecvByIdApi(String)
+		参数为消息ID
+
 
 
 
 
 ## 异步组件对事件中心的支持:
 **对事件中心的支持实质是仅保留了发送MQ消息的功能.**
-- 修改EOSConfig的配置:
-<pre>
-&lt;bean id="eosConfig" class="com.yonyou.cloud.config.eos.EOSConfig"&gt;
-	&lt;property name="jdbcTemplate" ref="jdbcTemplate"/&gt;
-	&lt;property name="transactionManager" ref="transactionManager"/&gt;
-	&lt;property name="authSDKClient" ref="authSDKClient"/&gt;
-	&lt;property name="forceMQSend" value="true"/&gt;
-	&lt;property name="enableMQRecv" value="false"/&gt;
-	&lt;property name="syncWithCloud" value="false"/&gt;
-	&lt;!-- ConsoleEOSSender需要实现接口:com.yonyou.cloud.config.eos.IEOSender --/&gt;
-	&lt;property name="senderClassName" value="com.yonyou.cloud.eos.component.ConsoleEOSSender"/&gt;
-&lt;/bean&gt;
-</pre>
-- 在异步调用消息保存到DB中供EOS组件扫描发送, 即 保存异步调用信息到eos_mqsend_success表.
-- 保存异步调用消息到表中列值的规范: 
-<pre>
-列txid,gtxid,为UUID生成, ptxid为null.
-srcqueue为发送业务端的AppCode@ProviderId@Env
-destqueue为接收处理业务端的AppCode@ProviderId@Env
-content为消息内容, 接收端收到后会调用IEOSender实现类中sendMQ方法, 并传入此消息对应的实体类:EOSMessage.
-createTime为创建时间, updatetime为更新时间.
-status为固定字符串内容为:waitsend
-</pre>
 
+- 修改EOSConfig的配置:
+
+		<bean id="eosConfig" class="com.yonyou.cloud.config.eos.EOSConfig">
+			<property name="jdbcTemplate" ref="jdbcTemplate"/>
+			<property name="transactionManager" ref="transactionManager"/>
+			<property name="authSDKClient" ref="authSDKClient"/>
+			<property name="forceMQSend" value="true"/>
+			<property name="enableMQRecv" value="false"/>
+			<property name="syncWithCloud" value="false"/>
+			<!-- ConsoleEOSSender需要实现接口:com.yonyou.cloud.config.eos.IEOSender -->
+			<property name="senderClassName" value="com.yonyou.cloud.eos.component.ConsoleEOSSender"/>
+		</bean>
+
+- 在异步调用消息保存到DB中供EOS组件扫描发送, 即 保存异步调用信息到eos_mqsend_success表.
+
+- 保存异步调用消息到表中列值的规范: 
+
+		列txid,gtxid,为UUID生成, ptxid为null.
+		srcqueue为发送业务端的AppCode@ProviderId@Env
+		destqueue为接收处理业务端的AppCode@ProviderId@Env
+		content为消息内容, 接收端收到后会调用IEOSender实现类中sendMQ方法, 并传入此消息对应的实体类:EOSMessage.
+		createTime为创建时间, updatetime为更新时间.
+		status为固定字符串内容为:waitsend
 
 
 ## EOS详细配置项详解(EOSConfig):
-**EOS配置项有许多, 可根据实际业务情况稍加调整.**<br>
 
-* **计划任务表达式**支持数字和Quartz的Cron表达式两种配置方式,其中数字方式表示定时任务的执行间隔时间(以毫秒为单位).
+EOS配置项有许多, 可根据实际业务情况稍加调整.
+
+**计划任务表达式**支持数字和Quartz的Cron表达式两种配置方式,其中数字方式表示定时任务的执行间隔时间(以毫秒为单位).
+
 <table style="text-align:left;">
     <tr>
         <th>配置项名称</th>
@@ -440,6 +448,7 @@ status为固定字符串内容为:waitsend
         <td>更换MQ后原MQ监听/发送<br>组件在销毁前的保留时长</td>
         <td>1000L * 60 * 60 * 24(ms)</td>
     </tr>
+
     <tr>
         <td>listenerThreadCount</td>
         <td></td>
