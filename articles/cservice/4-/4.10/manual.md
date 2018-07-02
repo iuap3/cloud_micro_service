@@ -23,36 +23,33 @@
 + 2）当执行异常时，执行降级逻辑
 
 ## 熔断器相关参数设置
-
-	参数	                                                作用                 	                            备注
-	errorThresholdPercentage	                         失败率达到多少百分比后熔断	                        默认值：50
-	                                                     主要根据依赖重要性进行调整
-	forceClosed	                                         是否强制关闭熔断，                                 如果是强依赖，应该设置为 true
-	requestVolumeThreshold	                             熔断触发的最小个数/10s	                            默认值：20
-	sleepWindowInMilliseconds	                         熔断多少秒后去尝试请求	                            默认值：5000
-	commandKey	 	                                     熔断器名称                                         默认值：当前执行方法名
-	coreSize	                                         线程池coreSize	                                    默认值：10，线程池隔离有效
-	execution.isolation.semaphore.maxConcurrentRequests  信号量最大并发度	                                SEMAPHORE模式有效，默认值：10
-	execution.isolation.strategy	                     隔离策略，有THREAD和SEMAPHORE	                    默认使用THREAD模式，以下几种可以使用SEMAPHORE模式： 
+<table border="1px" align="left" bordercolor="black" width="80%" height="100px">
+<tr align="left"><td>参数名字</td><td>作用</td><td>备注</td></tr>
+<tr align="left"><td>errorThresholdPercentage</td> <td>失败率达到多少百分比后熔断, 主要根据依赖重要性进行调整</td>  <td>默认值：50</td> </tr>
+<tr align="left"><td>forceClosed</td><td>是否强制关闭熔断</td> <td>如果是强依赖，应该设置为 true</td> </tr>
+<tr align="left">  <td>requestVolumeThreshold</td><td>熔断触发的最小个数/10s</td>  <td>默认值：20</td>   </tr>
+<tr align="left">  <td>sleepWindowInMilliseconds</td><td>熔断多少秒后去尝试请求</td>  <td>默认值：5000</td>  </tr>
+<tr align="left">  <td>commandKey</td><td>熔断器名称</td>  <td>默认值：当前执行方法名</td> </tr>
+<tr align="left">  <td>coreSize</td><td>线程池coreSize</td>  <td>默认值：10，线程池隔离有效</td>   </tr>
+<tr align="left">  <td>execution.isolation.semaphore.maxConcurrentRequests</td><td>信号量最大并发度</td>  <td>默认值：10</td>  </tr>
+<tr align="left">  <td>execution.isolation.strategy</td><td>隔离策略，SEMAPHORE模式有效，默认值： 默认使用THREAD模式，以下几种可以使用SEMAPHORE模式： 
 		                                                                                                    只想控制并发度
-		                                                                                                    外部的方法已经做了线程隔离
-		                                                                                                    调用的是本地方法或者可靠度非常高、耗时特别小的方法
-	execution.isolation.thread.interruptOnTimeout	     是否打开超时线程中断	                            THREAD模式有效
-	execution.isolation.thread.timeoutInMilliseconds     超时时间	                                        默认值：1000
-	                                                                                                        在THREAD模式下，达到超时时间，可以中断
-	                                                                                                        在SEMAPHORE模式下，会等待执行完成后，再去判断是否超时
-	execution.timeout.enabled	                         是否打开超时	 
-	fallback.isolation.semaphore.maxConcurrentRequests   fallback最大并发度	                                默认值：10
-	groupKey	                                         表示所属的group，一个group共用线程池	            默认值：getClass().getSimpleName();
-	maxQueueSize	                                     请求等待队列	                                    默认值：-1
-	                                                                                                        如果使用正数，队列将从SynchronizeQueue改为LinkedBlockingQueue
-	hystrix.command.default.metrics.                     设置统计的时间窗口值的，毫秒值                     circuit break 的打开会根据1个rolling window的统计来计算。若rolling window被设为10000毫秒，则rolling window会被分成n个buckets，每个bucket包含success，failure，timeout，rejection的次数的统计信息。默认10000
-	rollingStats.timeInMilliseconds                      	                                
-	hystrix.command.default.metrics.                     设置一个rolling window被划分的数量
-	rollingStats.numBuckets 	 
-	hystrix.commanddefaultmetricshealthSnapshot.
-	intervalInMilliseconds 	                             记录health 快照（用来统计成功和错误绿）的间隔，   默认500ms
+		                                                                                                    外部的方法已经做了线程隔离	    
+		                                                                                                    调用的是本地方法或者可靠度非常高、耗时特别小的方法</td> <td>&nbsp;</td> </tr>
+<tr align="left">  <td>execution.isolation.thread.interruptOnTimeout</td><td>是否打开超时线程中断</td>  <td>THREAD模式有效</td>  </tr>
+<tr align="left">  <td>execution.isolation.thread.timeoutInMilliseconds</td><td>超时时间</td>  <td> 默认值：1000,在THREAD模式下，达到超时时间，可以中断在SEMAPHORE模式下，会等待执行完成后，再去判断是否超时</td> </tr>
+<tr align="left">  <td>execution.timeout.enabled</td><td>是否打开超时	 </td>  <td></td></tr>
+<tr align="left">  <td>fallback.isolation.semaphore.maxConcurrentRequests</td><td>fallback最大并发度	   </td>  <td> 默认值：10,如果使用正数，队列将从SynchronizeQueue改为LinkedBlockingQueue</td></tr>
+<tr align="left">  <td>groupKey</td><td>表示所属的group，一个group共用线程池	 </td>  <td>  默认值：getClass().getSimpleName()</tr>
 
+<tr align="left">  <td>hystrix.command.default.metrics.rollingStats.timeInMilliseconds </td><td>设置统计的时间窗口值的毫秒值,默认10000。</td><td> circuit break 的打开会根据1个rolling window的统计来计算。若rolling window被设为10000毫秒，则rolling window会被分成n个buckets，每个bucket包含success，failure，timeout，rejection的次数的统计信息。</td></tr>
+
+<tr align="left">  <td>maxQueueSize</td><td>请求等待队列 </td>  <td> 默认值：-1</td></tr>
+	                                                                                                     
+                    	                                
+<tr align="left">  <td>hystrix.command.default.metrics.rollingStats.numBuckets </td><td> 设置一个rolling window被划分的数量 </td><td>&nbsp;</td> </tr>
+<tr align="left">  <td>hystrix.commanddefaultmetricshealthSnapshot.intervalInMilliseconds</td><td>记录health 快照（用来统计成功和错误绿）的间隔</td>   <td>默认500ms</td></tr>
+</table>
 ## 注意事项
 目前只支持信号量隔离策略，使用线程隔离策略会存在threadlocal变量问题，因为被隔离的方法在新的线程中调用，如果被隔离的方法中通过threadlocal来传递参数或上下文的话
 会导致被调用方法隔离前后获取threadlocal不对
