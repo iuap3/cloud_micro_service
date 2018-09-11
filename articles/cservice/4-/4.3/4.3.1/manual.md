@@ -1,7 +1,4 @@
-
-# 同步RPC接口开发
-
-## RPC接口声明
+#  RPC接口声明
 - 新建maven工程, 在pom.xml内引用maven依赖:
 
 		<dependency>

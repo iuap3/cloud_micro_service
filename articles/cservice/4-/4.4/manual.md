@@ -1,4 +1,4 @@
-# EOS异步一致性框架·开发指南
+# 异步调用
 
 ## 快速入门
 
@@ -11,13 +11,13 @@
 ### API接口工程
 
 #### 引入maven依赖:
-<pre>
-&lt;dependency&gt;
-	&lt;groupId&gt;com.yonyou.cloud.middleware&lt;/groupId&gt;
-	&lt;artifactId&gt;mwclient&lt;/artifactId&gt;
-	&lt;version&gt;5.0.0-RELEASE&lt;/version&gt;
-&lt;/dependency&gt;
-</pre>
+
+	<dependency>
+		<groupId>com.yonyou.cloud.middleware</groupId>
+		<artifactId>mwclient</artifactId>
+		<version>5.0.0-RELEASE</version>
+	</dependency>
+
 
 #### 编写API接口类
 * 编写API接口类, 此处以**com.mybiz.api.EOSDemoAPI**接口类为示例.<br>
@@ -27,265 +27,264 @@
 ### 客户端服务端编写规范:
 
 #### 引入maven依赖:
-<pre>
-&lt;dependency&gt;
-	&lt;groupId&gt;com.yonyou.cloud.middleware&lt;/groupId&gt;
-	&lt;artifactId&gt;eos-spring-support&lt;/artifactId&gt;
-	&lt;version&gt;5.0.0-RELEASE&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-	&lt;groupId&gt;com.yonyou.cloud.middleware&lt;/groupId&gt;
-	&lt;artifactId&gt;mwclient&lt;/artifactId&gt;
-	&lt;version&gt;5.0.0-RELEASE&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-	&lt;groupId&gt;com.yonyou.cloud&lt;/groupId&gt;
-	&lt;artifactId&gt;auth-sdk-client&lt;/artifactId&gt;
-	&lt;version&gt;1.0.15-SNAPSHOT&lt;/version&gt;
-&lt;/dependency&gt;
-</pre>
+
+	<dependency>
+		<groupId>com.yonyou.cloud.middleware</groupId>
+		<artifactId>eos-spring-support</artifactId>
+		<version>5.0.0-RELEASE</version>
+	</dependency>
+	<dependency>
+		<groupId>com.yonyou.cloud.middleware</groupId>
+		<artifactId>mwclient</artifactId>
+		<version>5.0.0-RELEASE</version>
+	</dependency>
+	<dependency>
+		<groupId>com.yonyou.cloud</groupId>
+		<artifactId>auth-sdk-client</artifactId>
+		<version>1.0.15-SNAPSHOT</version>
+	</dependency>
+	
 
 #### 其他Maven依赖项:
 依赖的Jdbc数据源组件用户可根据实际情况替换为DBCP或其他,依赖的SpringJdbc和Context版本用户可自定义, 推荐4.3.x及以上:
-<pre>
-&lt;dependency&gt;
-	&lt;groupId&gt;org.springframework&lt;/groupId&gt;
-	&lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;
-	&lt;version&gt;4.3.8.RELEASE&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-	&lt;groupId&gt;org.springframework&lt;/groupId&gt;
-	&lt;artifactId&gt;spring-context&lt;/artifactId&gt;
-	&lt;version&gt;4.3.8.RELEASE&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-	&lt;groupId&gt;mysql&lt;/groupId&gt;
-	&lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
-	&lt;version&gt;${mysql.version}&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-	&lt;groupId&gt;org.apache.tomcat&lt;/groupId&gt;
-	&lt;artifactId&gt;tomcat-jdbc&lt;/artifactId&gt;
-	&lt;version&gt;${tomcat-jdbc.version}&lt;/version&gt;
-&lt;/dependency&gt;
-</pre>
+
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-jdbc</artifactId>
+		<version>4.3.8.RELEASE</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+		<version>4.3.8.RELEASE</version>
+	</dependency>
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>${mysql.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.tomcat</groupId>
+		<artifactId>tomcat-jdbc</artifactId>
+		<version>${tomcat-jdbc.version}</version>
+	</dependency>
+
 
 
 #### Spring文件最简化配置:
 
-<pre>
-&lt;bean id="eosConfig" class="com.yonyou.cloud.config.eos.EOSConfig"&gt;
-    	&lt;property name="jdbcTemplate" ref="jdbcTemplate"/&gt;
-    	&lt;property name="transactionManager" ref="transactionManager"/&gt;
-    	&lt;property name="authSDKClient" ref="authSDKClient"/&gt;
-&lt;/bean&gt;
-</pre>
+
+	<bean id="eosConfig" class="com.yonyou.cloud.config.eos.EOSConfig">
+	    	<property name="jdbcTemplate" ref="jdbcTemplate"/>
+	    	<property name="transactionManager" ref="transactionManager"/>
+	    	<property name="authSDKClient" ref="authSDKClient"/>
+	</bean>
+
 
 #### Spring文件典型配置:
 
-<pre>
-&lt;!-- EOS 所需 jdbc组件 --&gt;
-&lt;bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"&gt;
-        &lt;property name="dataSource" ref="dataSource"&gt;&lt;/property&gt;
-&lt;/bean&gt;
-    
-&lt;!--使用annotation定义事务 --&gt;
-&lt;tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/&gt;
-    
-&lt;!-- 事务配置 --&gt;
-&lt;bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"&gt;
-        &lt;property name="dataSource" ref="dataSource"/&gt;
- &lt;/bean&gt;
+	<!-- EOS 所需 jdbc组件 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+	        <property name="dataSource" ref="dataSource"></property>
+	</bean>
+	    
+	<!--使用annotation定义事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+	    
+	<!-- 事务配置 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	        <property name="dataSource" ref="dataSource"/>
+	 </bean>
+	
+	<!--加签配置 -->
+	<bean id="authSDKClient" class="com.yonyou.cloud.auth.sdk.client.AuthSDKClient">
+		<constructor-arg name="accessKey" value="${prop.accessKey}" />  
+		<constructor-arg name="accessSecret" value="${prop.accessSecret}" />  
+	</bean>
+	    
+	<!--eos组件配置综合 -->
+	<bean id="eosConfig" class="com.yonyou.cloud.config.eos.EOSConfig">
+	    	<property name="jdbcTemplate" ref="jdbcTemplate"/>
+	    	<property name="transactionManager" ref="transactionManager"/>
+	    	<property name="authSDKClient" ref="authSDKClient"/>
+	</bean>
 
-&lt;!--加签配置 --&gt;
-&lt;bean id="authSDKClient" class="com.yonyou.cloud.auth.sdk.client.AuthSDKClient"&gt;
-	&lt;constructor-arg name="accessKey" value="${prop.accessKey}" /&gt;  
-	&lt;constructor-arg name="accessSecret" value="${prop.accessSecret}" /&gt;  
-&lt;/bean&gt;
-    
-&lt;!--eos组件配置综合 --&gt;
-&lt;bean id="eosConfig" class="com.yonyou.cloud.config.eos.EOSConfig"&gt;
-    	&lt;property name="jdbcTemplate" ref="jdbcTemplate"/&gt;
-    	&lt;property name="transactionManager" ref="transactionManager"/&gt;
-    	&lt;property name="authSDKClient" ref="authSDKClient"/&gt;
-&lt;/bean&gt;
-</pre>
 
 #### EOS数据库建库脚本:
-<pre>
-/*!40101 SET NAMES utf8 */;
+	
+	/*!40101 SET NAMES utf8 */;
+	
+	/*!40101 SET SQL_MODE=''*/;
+	
+	/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+	/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+	/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+	CREATE DATABASE /*!32312 IF NOT EXISTS*/`eos` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
+	
+	USE `eos`;
+	
+	/*Table structure for table `eos_actionlog` */
+	
+	DROP TABLE IF EXISTS `eos_actionlog`;
+	
+	CREATE TABLE `eos_actionlog` (
+	  `pk` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'DB主键,为性能提升',
+	  `id` varchar(36) NOT NULL COMMENT '业务主键',
+	  `src_provider_id` varchar(36) DEFAULT NULL COMMENT '源租户ID',
+	  `dest_provider_id` varchar(36) DEFAULT NULL COMMENT '目标租户ID',
+	  `own_provider_id` varchar(36) DEFAULT NULL COMMENT '事务所属租户ID',
+	  `src_app_code` varchar(36) DEFAULT NULL COMMENT '调用来源应用编码',
+	  `dest_app_code` varchar(36) DEFAULT NULL COMMENT '调用目标应用编码',
+	  `own_app_code` varchar(36) DEFAULT NULL COMMENT '事务所属应用编码',
+	  `interface_name` varchar(255) DEFAULT NULL COMMENT 'RPC服务接口名称',
+	  `method_name` varchar(100) DEFAULT NULL COMMENT 'RPC服务接口的方法名',
+	  `env` varchar(20) DEFAULT NULL COMMENT 'SDK中指定的调用环境',
+	  `gtx_id` varchar(36) DEFAULT NULL COMMENT '全局事务ID',
+	  `ptx_id` varchar(36) DEFAULT NULL COMMENT '父事务ID',
+	  `tx_id` varchar(36) DEFAULT NULL COMMENT '本次调用事务ID',
+	  `msg_id` varchar(36) DEFAULT NULL COMMENT '消息ID',
+	  `err_log` varchar(10000) DEFAULT NULL COMMENT '错误事务简单日志',
+	  `status` varchar(20) DEFAULT NULL COMMENT '事务状态编码（对应枚举类）',
+	  `sync_direction` varchar(20) DEFAULT NULL COMMENT '同步方向，sdk和云端同步时使用',
+	  `create_time` bigint(20) DEFAULT NULL COMMENT '错误事务初始入库时间，不能修改',
+	  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间，每次修改状态或者字段时候更新',
+	  `version` int(11) DEFAULT NULL COMMENT '乐观锁version',
+	  PRIMARY KEY (`pk`),
+	  UNIQUE KEY `UQ_ID` (`id`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='EOS 异步调用错误日志实体类，一条错误日志代表一次错误的异步调用事务';
+	
+	/*Table structure for table `eos_mqerror` */
+	
+	DROP TABLE IF EXISTS `eos_mqerror`;
+	
+	CREATE TABLE `eos_mqerror` (
+	  `pk` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'DB主键,为性能提升',
+	  `id` varchar(36) NOT NULL COMMENT '业务错误日志主键',
+	  `logtype` varchar(20) DEFAULT NULL COMMENT '日志类型(0:发送日志,1:接收日志)',
+	  `mqid` varchar(100) DEFAULT NULL COMMENT '消息id',
+	  `errlog` varchar(10000) DEFAULT NULL COMMENT '错误日志消息',
+	  `ts` bigint(20) DEFAULT NULL COMMENT '当前时间',
+	  `status` varchar(20) DEFAULT NULL COMMENT '未归档/已归档',
+	  PRIMARY KEY (`pk`),
+	  UNIQUE KEY `UQ_ID` (`id`),
+	  KEY `IDX_MQID` (`mqid`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	
+	/*Table structure for table `eos_mqrecv_error` */
+	
+	DROP TABLE IF EXISTS `eos_mqrecv_error`;
+	
+	CREATE TABLE `eos_mqrecv_error` (
+	  `pk` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'DB主键,为性能提升',
+	  `id` varchar(36) NOT NULL COMMENT 'MQID-UUID-主键',
+	  `txid` varchar(36) DEFAULT NULL COMMENT '事务ID-UUID',
+	  `ptxid` varchar(36) DEFAULT NULL COMMENT '父事务ID-UUID',
+	  `gtxid` varchar(36) DEFAULT NULL COMMENT '全局事务ID-UUID',
+	  `srcqueue` varchar(100) DEFAULT NULL COMMENT '发送队列名称=应用编码-租户ID-环境',
+	  `destqueue` varchar(100) DEFAULT NULL COMMENT '接收队列名称=应用编码-租户ID-环境',
+	  `content` varchar(20000) DEFAULT NULL COMMENT '消息内容',
+	  `createtime` bigint(20) DEFAULT NULL COMMENT '创建时间',
+	  `updatetime` bigint(20) DEFAULT NULL COMMENT '更新时间',
+	  `status` varchar(20) DEFAULT NULL COMMENT '状态(0:失败,1成功)',
+	  `sync` varchar(20) DEFAULT NULL COMMENT '同步状态(0未同步,1已同步)',
+	  PRIMARY KEY (`pk`),
+	  UNIQUE KEY `UQ_ID` (`id`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	
+	/*Table structure for table `eos_mqrecv_success` */
+	
+	DROP TABLE IF EXISTS `eos_mqrecv_success`;
+	
+	CREATE TABLE `eos_mqrecv_success` (
+	  `pk` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'DB主键,为性能提升',
+	  `id` varchar(36) NOT NULL COMMENT '业务MQID-UUID-主键',
+	  `txid` varchar(36) DEFAULT NULL COMMENT '事务ID-UUID',
+	  `ptxid` varchar(36) DEFAULT NULL COMMENT '父事务ID-UUID',
+	  `gtxid` varchar(36) DEFAULT NULL COMMENT '全局事务ID-UUID',
+	  `srcqueue` varchar(100) DEFAULT NULL COMMENT '发送队列名称=应用编码-租户ID-环境',
+	  `destqueue` varchar(100) DEFAULT NULL COMMENT '接收队列名称=应用编码-租户ID-环境',
+	  `content` varchar(20000) DEFAULT NULL COMMENT '消息内容',
+	  `createtime` bigint(20) DEFAULT NULL COMMENT '创建时间',
+	  `updatetime` bigint(20) DEFAULT NULL COMMENT '更新时间',
+	  PRIMARY KEY (`pk`),
+	  UNIQUE KEY `UQ_ID` (`id`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	
+	/*Table structure for table `eos_mqsend_error` */
+	
+	DROP TABLE IF EXISTS `eos_mqsend_error`;
+	
+	CREATE TABLE `eos_mqsend_error` (
+	  `pk` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'DB主键,为性能提升',
+	  `id` varchar(36) NOT NULL COMMENT '主键-UUID',
+	  `txid` varchar(36) DEFAULT NULL COMMENT '事务ID-UUID',
+	  `ptxid` varchar(36) DEFAULT NULL COMMENT '父事务ID-UUID',
+	  `gtxid` varchar(36) DEFAULT NULL COMMENT '全局事务ID-UUID',
+	  `srcqueue` varchar(100) DEFAULT NULL COMMENT '发送队列名称=应用编码-租户ID-环境',
+	  `destqueue` varchar(100) DEFAULT NULL COMMENT '接收队列名称=应用编码-租户ID-环境',
+	  `content` varchar(20000) DEFAULT NULL COMMENT '消息内容',
+	  `createtime` bigint(20) DEFAULT NULL COMMENT '创建时间',
+	  `updatetime` bigint(20) DEFAULT NULL COMMENT '更新时间',
+	  `status` varchar(20) DEFAULT NULL COMMENT '状态(0失败,1成功)',
+	  `sync` varchar(20) DEFAULT NULL COMMENT '同步状态(0未同步,1已同步)',
+	  PRIMARY KEY (`pk`),
+	  UNIQUE KEY `UQ_ID` (`id`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	
+	/*Table structure for table `eos_mqsend_success` */
+	
+	DROP TABLE IF EXISTS `eos_mqsend_success`;
+	
+	CREATE TABLE `eos_mqsend_success` (
+	  `pk` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'DB主键(为性能提升)',
+	  `id` varchar(36) NOT NULL COMMENT '业务主键-UUID',
+	  `txid` varchar(36) DEFAULT NULL COMMENT '事务ID-UUID',
+	  `ptxid` varchar(36) DEFAULT NULL COMMENT '父事务ID-UUID',
+	  `gtxid` varchar(36) DEFAULT NULL COMMENT '全局事务ID-UUID',
+	  `srcqueue` varchar(100) DEFAULT NULL COMMENT '发送队列名称=应用编码-租户ID-环境',
+	  `destqueue` varchar(100) DEFAULT NULL COMMENT '接收队列名称=应用编码-租户ID-环境',
+	  `content` varchar(20000) DEFAULT NULL COMMENT '消息内容',
+	  `createtime` bigint(20) DEFAULT NULL COMMENT '创建时间',
+	  `updatetime` bigint(20) DEFAULT NULL COMMENT '更新时间',
+	  `status` varchar(20) NOT NULL COMMENT '发送状态(0待发送,1发送中,2发送成功)',
+	  PRIMARY KEY (`pk`),
+	  UNIQUE KEY `UQ_ID` (`id`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	
+	/*Table structure for table `eos_mqsend_success_bak` */
+	
+	DROP TABLE IF EXISTS `eos_mqsend_success_bak`;
+	
+	CREATE TABLE `eos_mqsend_success_bak` (
+	  `pk` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '伪主键(为性能提升)',
+	  `id` varchar(36) NOT NULL COMMENT '主键-UUID',
+	  `txid` varchar(36) DEFAULT NULL COMMENT '事务ID-UUID',
+	  `ptxid` varchar(36) DEFAULT NULL COMMENT '父事务ID-UUID',
+	  `gtxid` varchar(36) DEFAULT NULL COMMENT '全局事务ID-UUID',
+	  `srcqueue` varchar(100) DEFAULT NULL COMMENT '发送队列名称=应用编码-租户ID-环境',
+	  `destqueue` varchar(100) DEFAULT NULL COMMENT '接收队列名称=应用编码-租户ID-环境',
+	  `content` varchar(20000) DEFAULT NULL COMMENT '消息内容',
+	  `createtime` bigint(20) DEFAULT NULL COMMENT '创建时间',
+	  `updatetime` bigint(20) DEFAULT NULL COMMENT '更新时间',
+	  `status` varchar(20) NOT NULL COMMENT '发送状态(0待发送,1发送中,2发送成功)',
+	  PRIMARY KEY (`pk`),
+	  UNIQUE KEY `UQ_ID` (`id`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	
+	/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+	/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+	/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-/*!40101 SET SQL_MODE=''*/;
-
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`eos` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
-
-USE `eos`;
-
-/*Table structure for table `eos_actionlog` */
-
-DROP TABLE IF EXISTS `eos_actionlog`;
-
-CREATE TABLE `eos_actionlog` (
-  `pk` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'DB主键,为性能提升',
-  `id` varchar(36) NOT NULL COMMENT '业务主键',
-  `src_provider_id` varchar(36) DEFAULT NULL COMMENT '源租户ID',
-  `dest_provider_id` varchar(36) DEFAULT NULL COMMENT '目标租户ID',
-  `own_provider_id` varchar(36) DEFAULT NULL COMMENT '事务所属租户ID',
-  `src_app_code` varchar(36) DEFAULT NULL COMMENT '调用来源应用编码',
-  `dest_app_code` varchar(36) DEFAULT NULL COMMENT '调用目标应用编码',
-  `own_app_code` varchar(36) DEFAULT NULL COMMENT '事务所属应用编码',
-  `interface_name` varchar(255) DEFAULT NULL COMMENT 'RPC服务接口名称',
-  `method_name` varchar(100) DEFAULT NULL COMMENT 'RPC服务接口的方法名',
-  `env` varchar(20) DEFAULT NULL COMMENT 'SDK中指定的调用环境',
-  `gtx_id` varchar(36) DEFAULT NULL COMMENT '全局事务ID',
-  `ptx_id` varchar(36) DEFAULT NULL COMMENT '父事务ID',
-  `tx_id` varchar(36) DEFAULT NULL COMMENT '本次调用事务ID',
-  `msg_id` varchar(36) DEFAULT NULL COMMENT '消息ID',
-  `err_log` varchar(10000) DEFAULT NULL COMMENT '错误事务简单日志',
-  `status` varchar(20) DEFAULT NULL COMMENT '事务状态编码（对应枚举类）',
-  `sync_direction` varchar(20) DEFAULT NULL COMMENT '同步方向，sdk和云端同步时使用',
-  `create_time` bigint(20) DEFAULT NULL COMMENT '错误事务初始入库时间，不能修改',
-  `update_time` bigint(20) DEFAULT NULL COMMENT '更新时间，每次修改状态或者字段时候更新',
-  `version` int(11) DEFAULT NULL COMMENT '乐观锁version',
-  PRIMARY KEY (`pk`),
-  UNIQUE KEY `UQ_ID` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='EOS 异步调用错误日志实体类，一条错误日志代表一次错误的异步调用事务';
-
-/*Table structure for table `eos_mqerror` */
-
-DROP TABLE IF EXISTS `eos_mqerror`;
-
-CREATE TABLE `eos_mqerror` (
-  `pk` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'DB主键,为性能提升',
-  `id` varchar(36) NOT NULL COMMENT '业务错误日志主键',
-  `logtype` varchar(20) DEFAULT NULL COMMENT '日志类型(0:发送日志,1:接收日志)',
-  `mqid` varchar(100) DEFAULT NULL COMMENT '消息id',
-  `errlog` varchar(10000) DEFAULT NULL COMMENT '错误日志消息',
-  `ts` bigint(20) DEFAULT NULL COMMENT '当前时间',
-  `status` varchar(20) DEFAULT NULL COMMENT '未归档/已归档',
-  PRIMARY KEY (`pk`),
-  UNIQUE KEY `UQ_ID` (`id`),
-  KEY `IDX_MQID` (`mqid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `eos_mqrecv_error` */
-
-DROP TABLE IF EXISTS `eos_mqrecv_error`;
-
-CREATE TABLE `eos_mqrecv_error` (
-  `pk` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'DB主键,为性能提升',
-  `id` varchar(36) NOT NULL COMMENT 'MQID-UUID-主键',
-  `txid` varchar(36) DEFAULT NULL COMMENT '事务ID-UUID',
-  `ptxid` varchar(36) DEFAULT NULL COMMENT '父事务ID-UUID',
-  `gtxid` varchar(36) DEFAULT NULL COMMENT '全局事务ID-UUID',
-  `srcqueue` varchar(100) DEFAULT NULL COMMENT '发送队列名称=应用编码-租户ID-环境',
-  `destqueue` varchar(100) DEFAULT NULL COMMENT '接收队列名称=应用编码-租户ID-环境',
-  `content` varchar(20000) DEFAULT NULL COMMENT '消息内容',
-  `createtime` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  `updatetime` bigint(20) DEFAULT NULL COMMENT '更新时间',
-  `status` varchar(20) DEFAULT NULL COMMENT '状态(0:失败,1成功)',
-  `sync` varchar(20) DEFAULT NULL COMMENT '同步状态(0未同步,1已同步)',
-  PRIMARY KEY (`pk`),
-  UNIQUE KEY `UQ_ID` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `eos_mqrecv_success` */
-
-DROP TABLE IF EXISTS `eos_mqrecv_success`;
-
-CREATE TABLE `eos_mqrecv_success` (
-  `pk` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'DB主键,为性能提升',
-  `id` varchar(36) NOT NULL COMMENT '业务MQID-UUID-主键',
-  `txid` varchar(36) DEFAULT NULL COMMENT '事务ID-UUID',
-  `ptxid` varchar(36) DEFAULT NULL COMMENT '父事务ID-UUID',
-  `gtxid` varchar(36) DEFAULT NULL COMMENT '全局事务ID-UUID',
-  `srcqueue` varchar(100) DEFAULT NULL COMMENT '发送队列名称=应用编码-租户ID-环境',
-  `destqueue` varchar(100) DEFAULT NULL COMMENT '接收队列名称=应用编码-租户ID-环境',
-  `content` varchar(20000) DEFAULT NULL COMMENT '消息内容',
-  `createtime` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  `updatetime` bigint(20) DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`pk`),
-  UNIQUE KEY `UQ_ID` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `eos_mqsend_error` */
-
-DROP TABLE IF EXISTS `eos_mqsend_error`;
-
-CREATE TABLE `eos_mqsend_error` (
-  `pk` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'DB主键,为性能提升',
-  `id` varchar(36) NOT NULL COMMENT '主键-UUID',
-  `txid` varchar(36) DEFAULT NULL COMMENT '事务ID-UUID',
-  `ptxid` varchar(36) DEFAULT NULL COMMENT '父事务ID-UUID',
-  `gtxid` varchar(36) DEFAULT NULL COMMENT '全局事务ID-UUID',
-  `srcqueue` varchar(100) DEFAULT NULL COMMENT '发送队列名称=应用编码-租户ID-环境',
-  `destqueue` varchar(100) DEFAULT NULL COMMENT '接收队列名称=应用编码-租户ID-环境',
-  `content` varchar(20000) DEFAULT NULL COMMENT '消息内容',
-  `createtime` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  `updatetime` bigint(20) DEFAULT NULL COMMENT '更新时间',
-  `status` varchar(20) DEFAULT NULL COMMENT '状态(0失败,1成功)',
-  `sync` varchar(20) DEFAULT NULL COMMENT '同步状态(0未同步,1已同步)',
-  PRIMARY KEY (`pk`),
-  UNIQUE KEY `UQ_ID` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `eos_mqsend_success` */
-
-DROP TABLE IF EXISTS `eos_mqsend_success`;
-
-CREATE TABLE `eos_mqsend_success` (
-  `pk` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'DB主键(为性能提升)',
-  `id` varchar(36) NOT NULL COMMENT '业务主键-UUID',
-  `txid` varchar(36) DEFAULT NULL COMMENT '事务ID-UUID',
-  `ptxid` varchar(36) DEFAULT NULL COMMENT '父事务ID-UUID',
-  `gtxid` varchar(36) DEFAULT NULL COMMENT '全局事务ID-UUID',
-  `srcqueue` varchar(100) DEFAULT NULL COMMENT '发送队列名称=应用编码-租户ID-环境',
-  `destqueue` varchar(100) DEFAULT NULL COMMENT '接收队列名称=应用编码-租户ID-环境',
-  `content` varchar(20000) DEFAULT NULL COMMENT '消息内容',
-  `createtime` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  `updatetime` bigint(20) DEFAULT NULL COMMENT '更新时间',
-  `status` varchar(20) NOT NULL COMMENT '发送状态(0待发送,1发送中,2发送成功)',
-  PRIMARY KEY (`pk`),
-  UNIQUE KEY `UQ_ID` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `eos_mqsend_success_bak` */
-
-DROP TABLE IF EXISTS `eos_mqsend_success_bak`;
-
-CREATE TABLE `eos_mqsend_success_bak` (
-  `pk` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '伪主键(为性能提升)',
-  `id` varchar(36) NOT NULL COMMENT '主键-UUID',
-  `txid` varchar(36) DEFAULT NULL COMMENT '事务ID-UUID',
-  `ptxid` varchar(36) DEFAULT NULL COMMENT '父事务ID-UUID',
-  `gtxid` varchar(36) DEFAULT NULL COMMENT '全局事务ID-UUID',
-  `srcqueue` varchar(100) DEFAULT NULL COMMENT '发送队列名称=应用编码-租户ID-环境',
-  `destqueue` varchar(100) DEFAULT NULL COMMENT '接收队列名称=应用编码-租户ID-环境',
-  `content` varchar(20000) DEFAULT NULL COMMENT '消息内容',
-  `createtime` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  `updatetime` bigint(20) DEFAULT NULL COMMENT '更新时间',
-  `status` varchar(20) NOT NULL COMMENT '发送状态(0待发送,1发送中,2发送成功)',
-  PRIMARY KEY (`pk`),
-  UNIQUE KEY `UQ_ID` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-</pre>
 
 
 #### 客户端服务端编写规范
 
 - 搭建客户端和服务端maven工程, 此处命名客户端为**my-eos-client**, 命名服务端为**my-eos-service**.
 - 客户端和服务端所需maven依赖及spring配置参见以上部分, 且引入my-eos-api对应的maven依赖.
-- 客户端使用spring方式注入使用my-eos-api的EOSDemoAPI接口.
+- 客户端使用spring方式注入使用my-eos-api的EOSDemoAPI接口, 并在调用接口的方法上标注@Transactional的注解或使用声明式事务方式.
 - 服务端实现my-eos-api的EOSDemoAPI接口.
 - 访问开发者中心, 新建名称的客户端和服务端微服务(新建流程参见开发者中心使用文档,在此不再赘述)
-- 新建完成后配置服务端的RabbitMQ地址(客户端不用配置), 进入开发者中心的左侧菜单 >> 微服务 >> 服务管理 >> 事务管理(标签页) >> 消息队列配置 >> EOS映射地址(输入框), 填写部署的RabbitMQ实例地址, 点击保存, 完成应用对应的MQ配置; RabbitMQ地址格式为以逗号分割的IP:Port, 如线上环境提供的公共RabbitMQ地址为: <pre>10.3.15.53:5672,10.3.15.54:5672</pre>.
+- 新建完成后配置服务端的RabbitMQ地址(客户端不用配置), 进入开发者中心的左侧菜单 >> 微服务 >> 服务管理 >> 事务管理(标签页) >> 消息队列配置 >> EOS映射地址(输入框), 填写部署的RabbitMQ实例地址, 点击保存, 完成应用对应的MQ配置; RabbitMQ地址格式为以逗号分割的IP:Port, 如线上环境提供的公共RabbitMQ地址为: 			10.3.15.53:5672,10.3.15.54:5672.
 - 在application.properties配置文件中配置好accessKey,accessSecret,spring.application.name,spring.profiles.active等属性(配置参考微服务搭建文档/示例工程).
 - 根据以上数据库脚本建立数据库.
 - 启动应用, 调试成功后部署到开发者中心.
@@ -294,17 +293,22 @@ CREATE TABLE `eos_mqsend_success_bak` (
 
 ## 自建RabbitMQ:
 
-EOS依赖RabbitMQ组件, 需启用RabbitMQ的Http认证插件, 由用友云提供Http认证, 认证地址指向: **developer.yonyoucloud.com**, 私有云环境指向私有云的ip:port即可, 如:172.20.23.232:8080
+EOS依赖RabbitMQ组件, 需启用RabbitMQ的Http认证插件, 由用友云提供Http认证, 认证地址指向: **developer.yonyoucloud.com**
 
 ### 以镜像方式搭建:
 
 * docker环境安装:
+* 
 		yum install -y docker.x86_64
-		vim /etc/docker/daemon.json
-		输入内容并保存:{ "insecure-registries":["dockerhub.yonyou.com"] }
+		vim /etc/docker/daemon.json  输入内容并保存:
+		{ "insecure-registries":["dockerhub.yonyou.com"] }
 		systemctl start docker
 
-* docker镜像名称为: **10.3.15.191:5000/eos-auth-rabbitmq:v1**
+* docker镜像名称为: 
+		
+		公司内网镜像名称: 10.3.15.191:5000/eos-auth-rabbitmq:v1
+		公有仓库镜像名称: dockerhub.yonyou.com/cloud/eos-rabbitmq:v1
+
 * 启动实例命令为(其中环境变量RABBITMQ\_AUTH\_SERVER为RabbitMQ的认证服务器地址):
 		
 		docker run -d --name rabbitmq_eos -p 15672:15672 -p 5672:5672 -e RABBITMQ_NODENAME=rabbitmq_eos -e RABBITMQ_AUTH_SERVER=developer.yonyoucloud.com dockerhub.yonyou.com/cloud/eos-rabbitmq:v1
