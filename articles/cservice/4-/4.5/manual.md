@@ -1,9 +1,9 @@
-#动态调用配置
+# 动态调用配置
 
-##适用场景
+## 适用场景
 没有对应的微服务接口类还需要调用微服务的情况下，可以通过动态调用方法调用微服务
 
-##微服务配置
+## 微服务配置
 和普通微服务一样需要配置application.properties文件
 
 	access.key=**************
@@ -11,7 +11,7 @@
 	spring.application.name=ms-client
 	spring.profiles.active=dev
 
-##动态调用工具类DynStub
+## 动态调用工具类DynStub
 
 动态调用工具类将方法的参数类型和参数转化为json字符串进行调用，在没有相应的类型时能自行拼接目标类的字符串。
 
@@ -66,7 +66,7 @@
 </table>
 
 
-##调用示例
+## 调用示例
 
 		//参数类型名数组
 		String[] paramsTypes =new String[] {String.class.getName()}; 

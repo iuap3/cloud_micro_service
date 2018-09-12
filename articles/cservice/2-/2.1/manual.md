@@ -1,4 +1,4 @@
-# 云开发者中心租户开通
+# 账号注册与登录
 
   在浏览器中输入地址，打开云开发者中心；点击注册按钮，可以注册开发者中心新用户。网址为：[https://developer.yonyoucloud.com](https://developer.yonyoucloud.com)。
 
