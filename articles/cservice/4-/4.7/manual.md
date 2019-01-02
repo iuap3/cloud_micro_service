@@ -20,7 +20,7 @@ IUAP开发平台的上下文存取需要依赖iuap-generic组件，同时需要�
 
 基于IUAP开发平台构建的工程中，可以使用InvocationInfoProxy存取相关属性进行业务开发，例如租户ID、应用编码、用户名称、语种、主题等。如果希望RPC调用可以携带特殊属性，可以在调用远程方法之前通过相应的API进行属性的设置，设置示例如下：
 
-![](/image/setinvocation.png)
+![](image/setinvocation.png)
 
 ## 服务端信息接收
 
@@ -31,4 +31,4 @@ IUAP开发平台的上下文存取需要依赖iuap-generic组件，同时需要�
 
 运行客户端和服务端工程，服务端可以打印出日志如下:
 
-![](/image/getinvocation.png) 
+![](image/getinvocation.png) 
