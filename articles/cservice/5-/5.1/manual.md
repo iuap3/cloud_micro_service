@@ -38,7 +38,7 @@ rpc-api工程为其它三个工程的公共依赖，工程内定义了RPC同步�
 - IChartDataService ： 普通的RPC调用接口示例；
 - IChartTypeService ： 使用配置文件声明接口示例；
 - IStatisticsService ： 使用SpringBoot方式作为提供方的接口示例；
-- INotifyService ： EOS异步调用接口示例；
+- IAsyncService ： EOS异步调用接口示例；
 
 各个接口的实现分布在rpc-provider和rpc-server两个服务提供者工程中，接口中使用到了注解，注解示例如下：
 
@@ -47,7 +47,7 @@ rpc-api工程为其它三个工程的公共依赖，工程内定义了RPC同步�
 
 	//使用Async注解标识异步方法
 	@Async
-	public void notify(String msg) throws Exception;
+	public void operateChartType(@ApiParam(name = "操作信息", required = true, description = "操作信息的具体内容字符串") String msg) throws Exception;
 
 开发者在本地IDE中开发调试过程中，可以将此工程在本地install之后再调试其他工程。
 
@@ -66,7 +66,7 @@ rpc-client工程的本地服务中，使用spring的方式依赖了远程服务�
 	private IChartTypeService remoteTypeService;
 
 	@Autowired(required=true)
-	private INotifyService notifyService;
+	private IAsyncService asyncService;
 
 客户端可以像调用本地服务一样调用上述远程服务。
 

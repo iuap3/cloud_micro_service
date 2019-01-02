@@ -50,9 +50,11 @@
 <tr align="left">  <td>hystrix.command.default.metrics.rollingStats.numBuckets </td><td> 设置一个rolling window被划分的数量 </td><td>&nbsp;</td> </tr>
 <tr align="left">  <td>hystrix.commanddefaultmetricshealthSnapshot.intervalInMilliseconds</td><td>记录health 快照（用来统计成功和错误绿）的间隔</td>   <td>默认500ms</td></tr>
 </table>
+
 ## 注意事项
 目前只支持信号量隔离策略，使用线程隔离策略会存在threadlocal变量问题，因为被隔离的方法在新的线程中调用，如果被隔离的方法中通过threadlocal来传递参数或上下文的话
 会导致被调用方法隔离前后获取threadlocal不对
+
 ## 示例
 
      maven工程引入如下依赖关系

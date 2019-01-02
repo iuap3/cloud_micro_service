@@ -17,7 +17,7 @@ com.yonyou.cloud.yyeye.itf.Tracer.setBusiCode(bizCode)
 
 设置业务编码后，成功调用RPC服务，可以再调用链路中进行查询。
 
-导航: 微服务 > 服务管理 > 具体应用 > 对应环境 > 微服务(页签) > API列表 > 调用设置业务编码的API > 链路 > 查询界面:
+导航: 服务治理 > 微服务 > 具体应用 > 对应环境 > 微服务(页签) > API列表 > 调用设置业务编码的API > 链路 > 查询界面:
 
 ![](./images/navi.png)
 
