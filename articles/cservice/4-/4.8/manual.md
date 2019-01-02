@@ -138,18 +138,18 @@ maven组件依赖对应的pom.xml中，依赖如下：
 
 在IDE中到入已有的maven工程，使用 jetty:run 方式调试运行两个工程，如下图：
 
-![](/image/debug.png)
+![](image/debug.png)
 
 
 启动过程中，服务治理平台会扫描工程中的dubbo的配置文件，将相应的接口信息上报到服务治理平台后台，可以从统一管控界面中看到启动的实例和API声明信息。
 
 登录开发者中心，进入微服务下的服务管理界面，找到对应的微服务应用，显示实例信息如下：
 
-![](/image/dubbo-instance.png)
+![](image/dubbo-instance.png)
 
 切换到微服务页签，点击API列表，可以查看工程中对应的远程接口和方法，如下图：
 
-![](/image/apilist.png)
+![](image/apilist.png)
 
 两个工程启动后，在浏览器中输入以下url进行访问测试，地址如下：
 
