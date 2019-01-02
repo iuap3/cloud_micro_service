@@ -1,4 +1,4 @@
-#最终一致性框架CC
+#TccTransaction分布式事务框架·用户指南
 
 ## 产品介绍
 
@@ -7,14 +7,14 @@ TccTransaction是一个没有事务协调器、没有事务中心概念，事务
 一个核心功能组件。
 ## 与传统tcc的优缺点
 * 优点
-  1）使用简单，业务只需要使用注解，并提供共confirm及cancel方法即可
-  2）没有事务协调器，各节点平等参与事务，各节点记录自己的事务信息，避免了中心服务器的瓶颈
-  3）由业务节点自行confirm或cancel
-  4）非常适合微服务调用链事务一致性
+	+ 1）使用简单，业务只需要使用注解，并提供共confirm及cancel方法即可
+	+ 2）没有事务协调器，各节点平等参与事务，各节点记录自己的事务信息，避免了中心服务器的瓶颈
+	+ 3）由业务节点自行confirm或cancel
+	+ 4）非常适合微服务调用链事务一致性
 
 * 缺点
-  1）由于没有事务协调器，事务信息分散在各业务节点，不利于全局事务监控
-  2）需要各业务节点向全局事务控制平台上报各自异常的事务信息，有可能出现在控制台看不到完整的事务参与者信息
+	+ 1）由于没有事务协调器，事务信息分散在各业务节点，不利于全局事务监控
+	+ 2）需要各业务节点向全局事务控制平台上报各自异常的事务信息，有可能出现在控制台看不到完整的事务参与者信息
 
 ## 功能介绍
 
@@ -28,20 +28,59 @@ TccTransaction是一个没有事务协调器、没有事务中心概念，事务
   真正数据库操作在confirm阶段执行insert或update操作，2）在try阶段执行预插入及更新操作，并由业务对数据有效性状态进行标记，由confirm或cancel修改数据状态，confirm后的数据可用
 * 支持事务上下文，在try阶段可将用户数据存储到当前事务上下文中，然后在confirm或cancel方法内可以根据获取try阶段设置的事务上下文信息
 * confirm、cancel方法第一个参数为TccTransactionContext context，代表当前事务上下文信息
-* 事务边界：1）第一个rpc 服务endpoint，事务开始于服务端，服务端同步调用其它服务时处于同一个全局事务 2）异步调用，异步调用是事务起点
-  3）sagas与tcc事务混用时，两个服务之间调用如果调用端和服务端用了不一样的事务框架，则，被调用端开启新事务
+* 事务边界：
+	+ 1）第一个rpc 服务endpoint，事务开始于服务端，服务端同步调用其它服务时处于同一个全局事务 
+	+ 2）异步调用，异步调用是事务起点
+	+ 3）sagas与tcc事务混用时，两个服务之间调用如果调用端和服务端用了不一样的事务框架，则，被调用端开启新事务
 *  confirm及cancel方法必须确保幂等性操作
+*  rpc重试机制，如果出现超时及网络问题，导致业务重试，每次重试都会向后继续调用，后续调用可能成功或失败，每次调用后都会根据当前全局事务状态来确定重试返回时是提交还是取消事务状态
 
-
-
+## 数据库模型:
+Tcc事务框架要求每个事务节点各自记录事务信息，通过以下两个表记录事务及事务调用关系
+<br>1) tcctransation表：记录当前业务参与的事务上下文及状态信息
+<table border="1px" align="left" bordercolor="black" width="80%"">
+<tr align="left"><td>字段名字</td><td>字段类型</td><td>备注</td></tr>
+<tr align="left"><td>gt_id</td> <td>varchar</td> <td>全局事务id，参与事务的各节点通过gt_id来标识一次全局事务</td> </tr>
+<tr align="left"><td>tx_id</td> <td>varchar</td> <td>当前节点事务id</td> </tr>
+<tr align="left"><td>ptx_id</td> <td>varchar</td> <td>上级事务id</td> </tr>
+<tr align="left"><td>status</td> <td>varchar</td> <td>事务状态，记录当前节点在全局事务中所处的状态，取值为以下四种
+CONFIRMING（进入事务方法时的状态）
+FAILED（业务方法异常时的状态）
+CANCEL(成功cancel后的状态)
+CONFIRMED(成功确认后的状态)
+</td> </tr>
+<tr align="left"><td>type</td> <td>varchar</td> <td>事务类型：ROOT，起点， BRANCH参与节点</td> </tr>
+<tr align="left"><td>context</td> <td>varchar</td> <td>存储事务开始时用户存储当前事务的信息，在confirm或cancel方法中可以取出来</td> </tr>
+<tr align="left"><td>invocation</td> <td>varchar</td> <td>业务方法的Rpc调用上下文信息</td> </tr>  
+<tr align="left"><td>cancel_invocation</td> <td>varchar</td> <td>Concancel方法调用的rpc上下文信息</td> </tr>  
+<tr align="left"><td>confirm_invocation</td> <td>varchar</td> <td>Confirm方法调用的rpc上下文信息</td> </tr>  
+<tr align="left"><td>service_name</td> <td>varchar</td> <td>发起调用的服务名</td> </tr>  
+<tr align="left"><td>interface_name</td> <td>varchar</td> <td>发起调用的接口名</td> </tr>  
+<tr align="left"><td>method_name</td> <td>varchar</td> <td>发起调用的方法</td> </tr>  
+</table>
+<br>2) tcctransation_rel表：记录当前事务中调用的下级事务关系上下文及状态
+<table border="1px" align="left" bordercolor="black" width="80%">
+<tr align="left"><td>字段名字</td><td>字段类型</td><td>备注</td></tr>
+<tr align="left"><td>gt_id</td> <td>varchar</td> <td>全局事务id，参与事务的各节点通过gt_id来标识一次全局事务</td> </tr>
+<tr align="left"><td>tx_id</td> <td>varchar</td> <td>当前节点事务id</td> </tr>
+<tr align="left"><td>ptx_id</td> <td>varchar</td> <td>上级事务id</td> </tr>
+<tr align="left"><td>call_service_name</td> <td>varchar</td> <td>调用方服务名</td> </tr>
+<tr align="left"><td>call_interface_name</td> <td>varchar</td> <td>调用方接口名</td> </tr>
+<tr align="left"><td>call_method_name</td> <td>varchar</td> <td>调用方服务名</td> </tr>
+<tr align="left"><td>service_name</td> <td>varchar</td> <td>被调用方服务名</td> </tr>
+<tr align="left"><td>interface_name</td> <td>varchar</td> <td>被调用接口</td> </tr>  
+<tr align="left"><td>method_name</td> <td>varchar</td> <td>被调用方法名</td> </tr>  
+<tr align="left"><td>cancel</td> <td>int</td> <td>值为1时，已经发起cancel，避免重复调用</td> </tr>  
+<tr align="left"><td>confirm</td> <td>int</td> <td>值为1时，已经发起confirm，避免重复调用</td> </tr>  
+<tr align="left"><td>confirm_invocation</td> <td>varchar</td> <td>Confirm的rpc上下文</td> </tr>  
+<tr align="left"><td>confirm_method</td> <td>varchar</td> <td>Confirm方法</td> </tr>  
+<tr align="left"><td>cancel_invocation</td> <td>varchar</td> <td>Cancel的rpc上下文</td> </tr>  
+<tr align="left"><td>cancel_method</td> <td>varchar</td> <td>Cancel方法</td> </tr>  
+</table>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 ## TccTransaction事务场景
 * TccTransaction分布式事务框架解决rpc链式同步调用事务一致性
-![](./images/cc-1.png)
-
-
-## TccTransaction事务管理控制台
-* TccTransaction控制台为分布式事务控制管理提供了可视化的界面, 当分布式事务节点异常，导致事务最终不一致的时候提供人工介入处理的途径，可以通过该界面，查看当前
-全局不一致的事务，并可以发起补偿操作
+![](./images/cc-1.png)  
 
 
 ## TccTransaction事务异步消息
@@ -57,12 +96,50 @@ TccTransaction是一个没有事务协调器、没有事务中心概念，事务
 ![](./images/mq-process.png)
 
 
+
+## TccTransaction事务管理控制台
+* TccTransaction控制台为分布式事务控制管理提供了可视化的界面, 当分布式事务节点confirm或cancel异常，导致事务最终不一致的时候提供人工介入处理的途径，可以通过该界面，查看当前
+全局不一致的事务，并可以发起补偿操作。进入开发者中心左边"服务治理"->"事务管理"进入事务管理页面，显示当前事务列表（只显示出现过不一致的全局事务）
+![](./images/list.png)
+* 点击详情进入该全局事务，可以查看该事务所有事务节点状态，发送事务或接收事务失败则可进行人工重试，重试后状态变为重试中，重试成功后事务状态一致（此菜单在不同的私有化版本中不尽一致）
+![](./images/status.png)
+
 ## TccTransaction事务使用  
 * 业务场景，见图，实箭头表示同步调用，虚箭头为异步调用  
   ![](./images/tcc.png)
 
+
+*  在业务库中加入eos及tcc相关的数据库表，见建库sql脚本
+*  在项目配置文件中加入相关bean定义
+``` 
+      <bean id="eosConfig" class="com.yonyou.cloud.config.eos.EOSConfig">
+    	<property name="jdbcTemplate" ref="jdbcTemplate"/>
+    	<property name="transactionManager" ref="transactionManager"/>
+    	<property name="authSDKClient" ref="authSDKClient"/>
+    	<property name="fullScanIntevalSend" value="0"/>
+    	<property name="fullScanIntevalActionLog" value="0"/>
+ 	    <!--eos控制台地址-->      	 
+ 	   <property name="eosCenterUrl" value="${eos.cloud.url:http://localhost/eos-console/}"/>
+      </bean>
+    
+     <bean id="tccMonitorConfig" class="com.yonyou.cloud.config.TccMonitorConfig">
+         <!--tcc事务控制台地址--> 
+ 	  <property name="tccMonitorUrl" value="${tcc.cloud.url:https://developer-test.yonyoucloud.com/eos-console/}"/> 
+  	 
+      </bean>
+      <!--jdbctemplate-->
+      <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+      <!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
+	<context:component-scan base-package="com.yonyou.cloud">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+	</context:component-scan>
+``` 
 * 引入相关jar包
-```
+```             <!--eos框架-->
 		<dependency>
 			<groupId>com.yonyou.cloud.middleware</groupId>
 			<artifactId>eos-spring-support</artifactId>

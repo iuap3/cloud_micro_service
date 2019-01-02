@@ -13,7 +13,7 @@ IUAP开发平台的上下文存取需要依赖iuap-generic组件，同时需要�
 	<dependency>
 		<groupId>com.yonyou.cloud.middleware</groupId>
 		<artifactId>iris-iuap-support</artifactId>
-		<version>5.0.0-RELEASE</version>
+		<version>5.1.1-RELEASE</version>
 	</dependency>
 
 ## 上下文信息设置

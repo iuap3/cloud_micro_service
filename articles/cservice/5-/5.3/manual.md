@@ -4,7 +4,7 @@
 
 可以从微服务治理平台官方网站下载上述文档中提及的示例工程，对应的下载地址如下：
 
-[https://developer.yonyoucloud.com/download/microservice/ms-examples.zip](https://developer.yonyoucloud.com/download/microservice/ms-examples.zip "官方示例5.0.0-RELEASE")
+[https://developer.yonyoucloud.com/download/microservice/ms-examples.zip](https://developer.yonyoucloud.com/download/microservice/ms-examples.zip "官方示例5.1.1-RELEASE")
 
 示例下载后，需要修改对应配置文件中的AccessKey和应用编码、租户ID等信息，编译maven工程后运行。
 

@@ -105,7 +105,7 @@ maven组件依赖对应的pom.xml中，依赖如下：
 	<dependency>
 		<groupId>com.yonyou.cloud.middleware</groupId>
 		<artifactId>iris-dubbo-support</artifactId>
-		<version>5.0.0-RELEASE</version>
+		<version>5.1.1-RELEASE</version>
 	</dependency>
 
 修改客户端工程的application.properties, 使用微服务治理平台方式适配后，内容如下：

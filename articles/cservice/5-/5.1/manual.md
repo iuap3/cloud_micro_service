@@ -1,6 +1,6 @@
 # 示例介绍
 
-微服务治理平台提供针对5.0.0-RELEASE的官方完整示例工程，工程采用Maven构建，包含父工程（ms-examples）、公用API工程（rpc-api）、服务调用方工程（rpc-client）、服务提供方工程（rpc-provider、rpc-server）。
+微服务治理平台提供针对5.1.1-RELEASE的官方完整示例工程，工程采用Maven构建，包含父工程（ms-examples）、公用API工程（rpc-api）、服务调用方工程（rpc-client）、服务提供方工程（rpc-provider、rpc-server）。
 
 业务开发者可以将示例以已有Maven工程的方式导入到IDE中进行运行调试，导入到IDE中后，效果如下：
 
@@ -13,7 +13,7 @@ ms-examples为几个示例工程的父工程，为pom类型，工程中规范了
 其中，使用的微服务治理平台SDK版本和IUAP开发平台组件的版本定义如下：
 
 	<!-- 微服务治理平台SDK -->
-	<mw.version>5.0.0-RELEASE</mw.version>
+	<mw.version>5.1.1-RELEASE</mw.version>
 	<!-- IUAP开发平台版本 -->
 	<iuap.version>3.2.1-SNAPSHOT</iuap.version>
 	<!-- 请求加签SDK版本 -->

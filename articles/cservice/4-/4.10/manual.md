@@ -55,6 +55,32 @@
 会导致被调用方法隔离前后获取threadlocal不对
 ## 示例
 
+     maven工程引入如下依赖关系
+	<dependencies>
+		<!-- 加入circuitbreaker -->
+		<dependency>
+			<groupId>com.yonyou.cloud.middleware</groupId>
+			<artifactId>middleware</artifactId>
+			<version>5.1.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-core</artifactId>
+			<version>8.5.16</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+	</dependencies>
+
 	//业务接口
 	public interface ILogService<T, M> {
 		public T log(T s);
@@ -92,11 +118,15 @@
 	 //业务对象
 	 ILogService<Integer> logIntService = new LogServiceImpl<Integer>();
 	//根据业务对象获取业务对象代理
-	//降级逻辑，降级逻辑class与业务实现有相同的签名方案，当业务方法出现熔断时，会执行降级逻辑class的相同签名的方法
-	ILogService<Integer> logIntServiceProxy = CirCuitBreakerProxyFactory.<ILogService<Integer>>createCircuitBreakerProxy().createProxy(logIntService, Fallback.cass,
+	//降级逻辑，降级逻辑class与业务实现有相同的签名方案，当业务方法出现熔断时，
+	会执行降级逻辑classat的相同签名的方法
+	ILogService<Integer> logIntServiceProxy = CirCuitBreakerProxyFactory.
+	<ILogService<Integer>>creeCircuitBreakerProxy().
+	createProxy(logIntService, Fallback.cass,
 	
 	//熔断器相关参数设置，递延式参数设置
-	CCSetter.withGroup("groupKey1").andCommandKey("commandkey1").andThreadPoolKey("threadpoolkey1").andCircuitBreakerForceOpen(true));
+	CCSetter.withGroup("groupKey1").andCommandKey("commandkey1").
+	andThreadPoolKey("threadpoolkey1").andCircuitBreakerForceOpen(true));
 	
 	// 通过代理对象执行隔离逻辑，即 执行log方法时将被熔断器隔离执行
 	logIntServiceProxy.log("one");

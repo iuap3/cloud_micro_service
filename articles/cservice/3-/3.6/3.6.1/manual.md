@@ -26,7 +26,7 @@ EOS 充分利用快速的异步消息和本地事务，并在此基础上提供�
 * EOS控制台为EOS处理异常消息的事务管理界面, 为用户提供了业务无法通过重试成功的消息的查询及重试/忽略操作界面.
 
 * 在使用EOS框架前, 需要配置应用的RabbitMQ地址:
-	* 页面导航: 开发者中心左边菜单 &gt;&gt; 微服务 &gt;&gt; 服务管理 &gt;&gt; 找到对应的应用 &gt;&gt; 点进对应的环境 &gt;&gt; 微服务 &gt;&gt; 事务管理 &gt;&gt; 消息队列配置 &gt;&gt; 在输入框中填写RabbitMQ地址, 如: IP1:Port1,IP2:Port2; 参见下图:
+	* 页面导航: 开发者中心左边菜单 &gt;&gt; 服务治理 &gt;&gt; 微服务 &gt;&gt; 找到对应的应用 &gt;&gt; 点进对应的环境 &gt;&gt; 微服务 &gt;&gt; 事务管理 &gt;&gt; 消息队列配置 &gt;&gt; 在输入框中填写RabbitMQ地址, 如: IP1:Port1,IP2:Port2; 参见下图:
 ![](./images/eos-console.png)
 * 消息地址配置输入框:
 ![](./images/rabbitmq-config.png)
