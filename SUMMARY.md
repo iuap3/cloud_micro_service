@@ -22,7 +22,7 @@
 	  * [服务评论](articles/cservice/3-/3.5/3.5.3/comment.md)
   * [异步调用与最终一致性](articles/cservice/3-/3.6/manual.md)
 	  * [异步调用EOS](articles/cservice/3-/3.6/3.6.1/manual.md)
-	  * [最终一致性框架CC](articles/cservice/3-/3.6/3.6.2/manual.md)
+	  * [TccTransaction分布式事务框架](articles/cservice/3-/3.6/3.6.2/tcc_manual.md)
   * [服务搜索](articles/cservice/3-/3.7/manual.md)
   * [服务关注](articles/cservice/3-/3.8/manual.md)
 * 开发指南
