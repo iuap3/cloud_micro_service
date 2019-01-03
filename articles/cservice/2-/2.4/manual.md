@@ -18,7 +18,7 @@
 	<dependency>
 	    <groupId>com.yonyou.cloud.middleware</groupId>
 	    <artifactId>mwclient</artifactId>
-	    <version>5.0.0-RELEASE</version>
+	    <version>5.1.1-RELEASE</version>
 		<type>pom</type>
 	</dependency>
 

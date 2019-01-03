@@ -15,7 +15,7 @@
 	<dependency>
 		<groupId>com.yonyou.cloud.middleware</groupId>
 		<artifactId>mwclient</artifactId>
-		<version>5.0.0-RELEASE</version>
+		<version>5.1.1-RELEASE</version>
 	</dependency>
 
 
@@ -31,12 +31,12 @@
 	<dependency>
 		<groupId>com.yonyou.cloud.middleware</groupId>
 		<artifactId>eos-spring-support</artifactId>
-		<version>5.0.0-RELEASE</version>
+		<version>5.1.1-RELEASE</version>
 	</dependency>
 	<dependency>
 		<groupId>com.yonyou.cloud.middleware</groupId>
 		<artifactId>mwclient</artifactId>
-		<version>5.0.0-RELEASE</version>
+		<version>5.1.1-RELEASE</version>
 	</dependency>
 	<dependency>
 		<groupId>com.yonyou.cloud</groupId>
@@ -452,7 +452,6 @@ EOS配置项有许多, 可根据实际业务情况稍加调整.
         <td>更换MQ后原MQ监听/发送<br>组件在销毁前的保留时长</td>
         <td>1000L * 60 * 60 * 24(ms)</td>
     </tr>
-
     <tr>
         <td>listenerThreadCount</td>
         <td></td>

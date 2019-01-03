@@ -20,17 +20,17 @@
 
 ### 3：SDK 组件依赖问题
 
-开发者可以从已有的工程进行改造，来生成新的支持微服务调用的工程，原工程中可能存在旧版本的微服务的SDK和旧版本的IUAP组件，5.0.0-RELEASE版本引用的各个组件的版本如下，可以帮助开发者排查依赖.
+开发者可以从已有的工程进行改造，来生成新的支持微服务调用的工程，原工程中可能存在旧版本的微服务的SDK和旧版本的IUAP组件，5.1.1-RELEASE版本引用的各个组件的版本如下，可以帮助开发者排查依赖.
 
 
-- mwclient 5.0.0-RELEASE pom类型
-- middleware 5.0.0-RELEASE pom类型
+- mwclient 5.1.1-RELEASE pom类型
+- middleware 5.1.1-RELEASE pom类型
 - iuap 3.2.1-SNAPSHOT
 - auth-sdk-client 1.0.15-SNAPSHOT
-- iris-springboot-support 5.0.0-RELEASE
-- iris-iuap-support 5.0.0-RELEASE
-- iris-dubbox-support 5.0.0-RELEASE
-- eos-spring-support 5.0.0-RELEASE
+- iris-springboot-support 5.1.1-RELEASE
+- iris-iuap-support 5.1.1-RELEASE
+- iris-dubbox-support 5.1.1-RELEASE
+- eos-spring-support 5.1.1-RELEASE
 
 ### 4：工程更新，pom.xml中依赖更新不到
 
@@ -55,7 +55,7 @@
 
 ### 7：部署到开发者中心环境变量覆盖问题
 
-微服务应用部署到开发者中心时，如果使用的是旧版本的微服务治理平台SDK，可能由于环境变量的问题导致配置不生效，请检查属性中的access_key、access_secret、mw_profiles_active等项是否有效或者与配置文件一致。5.0.0-RELEASE版本的SDK已经对此问题进行适配。
+微服务应用部署到开发者中心时，如果使用的是旧版本的微服务治理平台SDK，可能由于环境变量的问题导致配置不生效，请检查属性中的access_key、access_secret、mw_profiles_active等项是否有效或者与配置文件一致。5.1.1-RELEASE版本的SDK已经对此问题进行适配。
 
 如果不匹配，请删除几项环境变量或者修改成与配置中相同的值，保存并重启。修改环境变量的位置为：容器服务->应用管理->具体应用->对应环境->“属性”页签, 详细信息中的环境列表展示了所有的环境变量。
 
@@ -80,7 +80,7 @@ mw_profiles_active的值建议修改成dev、test、stage、online，分别对�
 
 此实例信息代表Docker容器的实例，Docker容器中运行着微服务工程。
 
-此外，展开微服务的服务管理菜单，查询到对应的微服务，展开实例页签，可以查看微服务注册中心的实例信息，如下图所示：
+此外，展开微服务的服务管理菜单，查询到对应的微服务，展开监控页签，可以查看微服务注册中心的实例信息，如下图所示：
 
 ![](images/registry-ins.png)
 
