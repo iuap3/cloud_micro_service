@@ -25,6 +25,7 @@
 	  * [TccTransaction分布式事务框架](articles/cservice/3-/3.6/3.6.2/tcc_manual.md)
   * [服务搜索](articles/cservice/3-/3.7/manual.md)
   * [服务关注](articles/cservice/3-/3.8/manual.md)
+  * [服务监控](articles/cservice/3-/3.10/manual.md)
 * 开发指南
   * [环境要求](articles/cservice/4-/4.1/manual.md)
   * [配置说明](articles/cservice/4-/4.2/manual.md)
@@ -40,6 +41,7 @@
   * [熔断API](articles/cservice/4-/4.10/manual.md)
   * [业务跟踪](articles/cservice/4-/4.11/manual.md)
   * [服务编排](articles/cservice/4-/4.12/manual.md)
+  * [服务监控](articles/cservice/4-/4.13/manual.md)
 * 参考示例
   * [示例介绍](articles/cservice/5-/5.1/manual.md)
   * [示例运行](articles/cservice/5-/5.2/manual.md)
