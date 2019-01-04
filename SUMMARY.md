@@ -32,6 +32,7 @@
   * [RPC服务开发](articles/cservice/4-/4.3/manual.md)
 	  * [RPC接口声明](articles/cservice/4-/4.3/4.3.1/manual.md)
 	  * [文档生成](articles/cservice/4-/4.3/4.3.2/manual.md)
+	  * [单元测试](articles/cservice/4-/4.3/4.3.3/manual.md)
   * [异步调用](articles/cservice/4-/4.4/manual.md)
   * [动态调用配置](articles/cservice/4-/4.5/manual.md)
   * [指定调用](articles/cservice/4-/4.6/manual.md)

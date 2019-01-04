@@ -65,4 +65,10 @@
 	</bean>
 
 
+### war包合并
+微服务开发完成之后如果需要合并部分war包，每个未打war项目需要在META-INF下增加以appCode命名的xxxxx.parent文件。文件内容为
+```
+parent=xxxxx
+```
 
+并且文件需要放在服务提供方下
