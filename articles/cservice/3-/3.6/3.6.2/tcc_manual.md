@@ -1,4 +1,4 @@
-# TccTransaction分布式事务框架·用户指南
+#TccTransaction分布式事务框架·用户指南
 
 ## 产品介绍
 
@@ -7,14 +7,15 @@ TccTransaction是一个没有事务协调器、没有事务中心概念，事务
 一个核心功能组件。
 ## 与传统tcc的优缺点
 * 优点
-	+ 1）使用简单，业务只需要使用注解，并提供共confirm及cancel方法即可
-	+ 2）没有事务协调器，各节点平等参与事务，各节点记录自己的事务信息，避免了中心服务器的瓶颈
-	+ 3）由业务节点自行confirm或cancel
-	+ 4）非常适合微服务调用链事务一致性
+	1. 使用简单，业务只需要使用注解，并提供共confirm及cancel方法即可
+	2. 没有事务协调器，各节点平等参与事务，各节点记录自己的事务信息，避免了中心服务器的瓶颈
+	3. 由业务节点自行confirm或cancel
+	4. 非常适合微服务调用链事务一致性
 
 * 缺点
-	+ 1）由于没有事务协调器，事务信息分散在各业务节点，不利于全局事务监控
-	+ 2）需要各业务节点向全局事务控制平台上报各自异常的事务信息，有可能出现在控制台看不到完整的事务参与者信息
+	1. 由于没有事务协调器，事务信息分散在各业务节点，不利于全局事务监控
+	2. 需要各业务节点向全局事务控制平台上报各自异常的事务信息，有可能出现在控制台看不到完整的事务参与者信息
+
 
 ## 功能介绍
 
@@ -29,15 +30,15 @@ TccTransaction是一个没有事务协调器、没有事务中心概念，事务
 * 支持事务上下文，在try阶段可将用户数据存储到当前事务上下文中，然后在confirm或cancel方法内可以根据获取try阶段设置的事务上下文信息
 * confirm、cancel方法第一个参数为TccTransactionContext context，代表当前事务上下文信息
 * 事务边界：
-	+ 1）第一个rpc 服务endpoint，事务开始于服务端，服务端同步调用其它服务时处于同一个全局事务 
-	+ 2）异步调用，异步调用是事务起点
-	+ 3）sagas与tcc事务混用时，两个服务之间调用如果调用端和服务端用了不一样的事务框架，则，被调用端开启新事务
+	1. 第一个rpc 服务endpoint，事务开始于服务端，服务端同步调用其它服务时处于同一个全局事务 
+	2. 异步调用，异步调用是事务起点
+	3. sagas与tcc事务混用时，两个服务之间调用如果调用端和服务端用了不一样的事务框架，则，被调用端开启新事务
 *  confirm及cancel方法必须确保幂等性操作
 *  rpc重试机制，如果出现超时及网络问题，导致业务重试，每次重试都会向后继续调用，后续调用可能成功或失败，每次调用后都会根据当前全局事务状态来确定重试返回时是提交还是取消事务状态
 
 ## 数据库模型:
 Tcc事务框架要求每个事务节点各自记录事务信息，通过以下两个表记录事务及事务调用关系
-<br>1) tcctransation表：记录当前业务参与的事务上下文及状态信息
+<br>**1.tcctransation表：记录当前业务参与的事务上下文及状态信息**
 <table border="1px" align="left" bordercolor="black" width="80%"">
 <tr align="left"><td>字段名字</td><td>字段类型</td><td>备注</td></tr>
 <tr align="left"><td>gt_id</td> <td>varchar</td> <td>全局事务id，参与事务的各节点通过gt_id来标识一次全局事务</td> </tr>
@@ -51,14 +52,15 @@ CONFIRMED(成功确认后的状态)
 </td> </tr>
 <tr align="left"><td>type</td> <td>varchar</td> <td>事务类型：ROOT，起点， BRANCH参与节点</td> </tr>
 <tr align="left"><td>context</td> <td>varchar</td> <td>存储事务开始时用户存储当前事务的信息，在confirm或cancel方法中可以取出来</td> </tr>
-<tr align="left"><td>invocation</td> <td>varchar</td> <td>业务方法的Rpc调用上下文信息</td> </tr>  
-<tr align="left"><td>cancel_invocation</td> <td>varchar</td> <td>Concancel方法调用的rpc上下文信息</td> </tr>  
-<tr align="left"><td>confirm_invocation</td> <td>varchar</td> <td>Confirm方法调用的rpc上下文信息</td> </tr>  
+<tr align="left"><td>invocation</td> <td>blob</td> <td>业务方法的Rpc调用上下文信息</td> </tr>  
+ 
 <tr align="left"><td>service_name</td> <td>varchar</td> <td>发起调用的服务名</td> </tr>  
 <tr align="left"><td>interface_name</td> <td>varchar</td> <td>发起调用的接口名</td> </tr>  
 <tr align="left"><td>method_name</td> <td>varchar</td> <td>发起调用的方法</td> </tr>  
+<tr align="left"><td>pk</td> <td>bigint</td> <td>自增主键</td> </tr>  
 </table>
-<br>2) tcctransation_rel表：记录当前事务中调用的下级事务关系上下文及状态
+
+<br>**2.tcctransation_rel表：记录当前事务中调用的下级事务关系上下文及状态**
 <table border="1px" align="left" bordercolor="black" width="80%">
 <tr align="left"><td>字段名字</td><td>字段类型</td><td>备注</td></tr>
 <tr align="left"><td>gt_id</td> <td>varchar</td> <td>全局事务id，参与事务的各节点通过gt_id来标识一次全局事务</td> </tr>
@@ -75,101 +77,82 @@ CONFIRMED(成功确认后的状态)
 <tr align="left"><td>confirm_invocation</td> <td>varchar</td> <td>Confirm的rpc上下文</td> </tr>  
 <tr align="left"><td>confirm_method</td> <td>varchar</td> <td>Confirm方法</td> </tr>  
 <tr align="left"><td>cancel_invocation</td> <td>varchar</td> <td>Cancel的rpc上下文</td> </tr>  
-<tr align="left"><td>cancel_method</td> <td>varchar</td> <td>Cancel方法</td> </tr>  
+<tr align="left"><td>cancel_method</td> <td>varchar</td> <td>Cancel方法</td> </tr> 
+<tr align="left"><td>pk</td> <td>bigint</td> <td>自增主键</td> </tr> 
+<tr align="left"><td>parent_pk</td> <td>bigint</td> <td>上级事务pk</td> </tr> 
+<tr align="left"><td>invocation</td> <td>blob</td> <td>rpc上下文</td> </tr> 
 </table>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
 ## TccTransaction事务场景
 * TccTransaction分布式事务框架解决rpc链式同步调用事务一致性
 ![](./images/cc-1.png)  
 
-
-## TccTransaction事务异步消息
-* 在使用TccTransaction框架前, 需要配置应用的RabbitMQ地址:
-	* 页面导航: 开发者中心左边菜单 &gt;&gt; 微服务 &gt;&gt; 服务管理 &gt;&gt; 找到对应的应用 &gt;&gt; 点进对应的环境 &gt;&gt; 微服务 &gt;&gt; 事务管理 &gt;&gt; 消息队列配置 &gt;&gt; 在输入框中填写RabbitMQ地址, 如: IP1:Port1,IP2:Port2; 参见下图:
-![](./images/eos-console.png)
-* 消息地址配置输入框:
-![](./images/rabbitmq-config.png)
-
-* 配置完消息地址后, 按照异步框架的开发指南进行工程配置, 若有异常会上报到EOS控制台; 按照以下步骤查询异常消息: <p>开发者中心左边菜单 &gt;&gt; 微服务 &gt;&gt; 服务管理 &gt;&gt; 找到对应的应用 &gt;&gt; 点进对应的环境 &gt;&gt; 微服务 &gt;&gt; **事务管理** &gt;&gt;</p>
-* 点击重试后会下发命令到客户端进行重试, 客户端重试完成后会上报重试结果, 重试成功后会在状态列中显示"重试成功", 否则显示"重试失败".
-* 点击忽略后会下发命令到客户端进行忽略, 被忽略的消息应交由人工处理, 进行数据的校对和检查.
-![](./images/mq-process.png)
-
-
-
-## TccTransaction事务管理控制台
-* TccTransaction控制台为分布式事务控制管理提供了可视化的界面, 当分布式事务节点confirm或cancel异常，导致事务最终不一致的时候提供人工介入处理的途径，可以通过该界面，查看当前
-全局不一致的事务，并可以发起补偿操作。进入开发者中心左边"服务治理"->"事务管理"进入事务管理页面，显示当前事务列表（只显示出现过不一致的全局事务）
-![](./images/list.png)
-* 点击详情进入该全局事务，可以查看该事务所有事务节点状态，发送事务或接收事务失败则可进行人工重试，重试后状态变为重试中，重试成功后事务状态一致（此菜单在不同的私有化版本中不尽一致）
-![](./images/status.png)
-
-## TccTransaction事务使用  
+## TccTransaction事务使用案例  
 * 业务场景，见图，实箭头表示同步调用，虚箭头为异步调用  
   ![](./images/tcc.png)
 
 
-*  在业务库中加入eos及tcc相关的数据库表，见建库sql脚本
-*  在项目配置文件中加入相关bean定义
-``` 
-      <bean id="eosConfig" class="com.yonyou.cloud.config.eos.EOSConfig">
-    	<property name="jdbcTemplate" ref="jdbcTemplate"/>
-    	<property name="transactionManager" ref="transactionManager"/>
-    	<property name="authSDKClient" ref="authSDKClient"/>
-    	<property name="fullScanIntevalSend" value="0"/>
-    	<property name="fullScanIntevalActionLog" value="0"/>
- 	    <!--eos控制台地址-->      	 
- 	   <property name="eosCenterUrl" value="${eos.cloud.url:http://localhost/eos-console/}"/>
-      </bean>
-    
-     <bean id="tccMonitorConfig" class="com.yonyou.cloud.config.TccMonitorConfig">
-         <!--tcc事务控制台地址--> 
- 	  <property name="tccMonitorUrl" value="${tcc.cloud.url:https://developer-test.yonyoucloud.com/eos-console/}"/> 
-  	 
-      </bean>
-      <!--jdbctemplate-->
-      <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="dataSource"></property>
-    </bean>
+*  要使用tcc事务，需要引入sdk、eos及tcc框架，且需要在业务数据库中创建eos和tcc相关的数据库表
+   引入eos框架后，应用启动后悔自动创建以下几个数据库表：<br/>
+   tm_locks<br/>
+   tm_mqerror<br/>
+   tm_mqrecv_error<br/>
+   tm_mqrecv_success<br/>
+   tm_mqsend_error<br/>
+   tm_mqsend_success_20181216<br/>
+   .....<br/>
+   其中tm_mqsend_success_*用了分表策略，由eos框架自动提前创建，默认提前创建十天的表<br/>
 
-      <!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
-	<context:component-scan base-package="com.yonyou.cloud">
-		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
-	</context:component-scan>
-``` 
-* 引入相关jar包
-```             <!--eos框架-->
+   tcc框架会自动在业务数据库中创建数据库表<br/>
+   tcc_transaction_20181216<br/>
+   .........<br/>
+   tcc_transaction_20181226<br/>
+   .........<br/>
+   其中tcc_transaction_*与tcc_transaction_rel*用了分表策略，由tcc框架自动提前创建，默认提前创建十天的表<br/>
+
+
+tcc事务框架使用最佳实践，本实例以旅游订单为例，共涉及九个微服务实例，调用关系如图，其中webapi是服务网关，提供访问微服务的入口，可通过http://host:port/tcc-webapi/tcc/order/?name=***&dest=**发起访问服务
+## 第一步：开发服务接口项目，服务接口在服务端和调用端都需要使用，所以将接口单独作为一个maven工程,引入依赖
+          <parent>
+		    <groupId>com.yonyou.cloud</groupId>
+		    <artifactId>tcc-demos</artifactId>
+		    <version>5.1.1-SNAPSHOT</version>
+	     </parent>
+	     <artifactId>tcc-pubapi</artifactId>
+	     <packaging>jar</packaging>
+
+                <!--引入tcc-->
+		<dependency>
+			<groupId>com.yonyou.cloud.middleware</groupId>
+			<artifactId>tcc</artifactId>
+			<version>${tcc.version}</version>
+		</dependency>
+		
+                <!--引入eos-->
 		<dependency>
 			<groupId>com.yonyou.cloud.middleware</groupId>
 			<artifactId>eos-spring-support</artifactId>
-			<!--需要引入eos-spring-support 5.1.0以后的包-->
-			<version>${mw.version}</version>
+			<version>${eos-spring-support.version}</version>
 		</dependency>
-
-		<!--tcc事务框架包-->
-		<dependency>
-			<groupId>com.yonyou.cloud.middleware</groupId>
-			<artifactId>Tcc</artifactId>
-			<version>${Tcc.version}</version>
-		</dependency>
-		<!--引入middleware sdk-->
+		
+		      <!--引入sdk-->
 		<dependency>
 			<groupId>com.yonyou.cloud.middleware</groupId>
 			<artifactId>mwclient</artifactId>
 			<version>${mw.version}</version>
 			<type>pom</type>
 		</dependency>
-```
 
-* 编写业务接口，包括业务方法和补偿方法，通过分布式事务注解来实现
-```
-     /**
+ **各接口定义如下：**
+
+    /**
      * 订单服务
      * @author Administrator
      *
      */
-     @RemoteCall(AppConstant.APP_INFO_ORDERSERVICE)
+     @RemoteCall("tcc-order-gh@c87e2267-1001-4c70-bb2a-ab41f3b81aa3")
      public interface IOrderService {
 
 	  @ApiOperation(value="下旅游订单", response=TourOrder.class)
@@ -191,25 +174,26 @@ CONFIRMED(成功确认后的状态)
      * @author Administrator
      *
      */
-     @RemoteCall(AppConstant.APP_INFO_PLANESERVICE)
+     //应用名@租户id
+     @RemoteCall("tcc-plane-gh@c87e2267-1001-4c70-bb2a-ab41f3b81aa3")
      public interface IMsPlaneService {
 	  @ApiOperation(value="预订机票", response=Void.class)
+	  // 业务方法，由sdk同步调用
 	  @TccTransactional(confirm="confirmPlane", cancel="cancelPlane")
 	  public abstract void orderPlane(PlaneOrder paramPlaneOrder);
 
 	  
+	  // 注意 Async注解为 com.yonyou.cloud.middleware.rpc.Async，此方法由框架自动调用，异步执行，用于确认业务修改
 	  @ApiOperation(value="确定机票预定", response=Void.class)
 	  @Async
 	  public abstract void confirmPlane(TccTransactionContext context, PlaneOrder paramPlaneOrder);
 	  
+
+	   // 注意 Async注解为 com.yonyou.cloud.middleware.rpc.Async，此方法由框架自动调用，异步执行，用于取消业务修改
 	  @ApiOperation(value="取消机票预定", response=Void.class)
 	  @Async
 	  public abstract void cancelPlane(TccTransactionContext context, PlaneOrder paramPlaneOrder);
 	  
-	  
-	  @ApiOperation(value="测试", response=String.class)
-	  @Async
-	  public abstract String testAsync(String hello);
 	  
      }
 
@@ -218,9 +202,9 @@ CONFIRMED(成功确认后的状态)
      * @author Administrator
      *
      */
-     @RemoteCall(AppConstant.APP_INFO_MEMBERSERVICE)
+     @RemoteCall("tcc-member-gh@c87e2267-1001-4c70-bb2a-ab41f3b81aa3")
      public interface IMsMemberService {
-	 @ApiOperation(value="会员积分", response=Void.class)
+	  @ApiOperation(value="会员积分", response=Void.class)
 	  @TccTransactional(confirm="confirmPoints", cancel="cancelPoints")
 	  public abstract void addPoints(String paramString1, String paramString2, Double paramDouble);
 	 
@@ -240,7 +224,7 @@ CONFIRMED(成功确认后的状态)
      *
      */
 
-     @RemoteCall(AppConstant.APP_INFO_HOTELSERVICE)
+     @RemoteCall("tcc-hotel-gh@c87e2267-1001-4c70-bb2a-ab41f3b81aa3")
      public interface IMsHotelService {
 	  @ApiOperation(value="预订酒店", response=Void.class)
 	  @TccTransactional(confirm="confirmHotel", cancel="cancelHotel")
@@ -261,7 +245,7 @@ CONFIRMED(成功确认后的状态)
      * @author Administrator
      *
      */
-    @RemoteCall(AppConstant.APP_INFO_CARSERVICE)
+    @RemoteCall("tcc-car-gh@c87e2267-1001-4c70-bb2a-ab41f3b81aa3")
     public interface IMsCarService {
 	  @ApiOperation(value="车辆预订", response=Void.class)
 	  @TccTransactional(confirm="confirmCar", cancel="cancelCar")
@@ -283,7 +267,7 @@ CONFIRMED(成功确认后的状态)
      * @author Administrator
      *
      */
-     @RemoteCall(AppConstant.APP_INFO_DINNERSERVICE)
+     @RemoteCall("tcc-dinner-gh@c87e2267-1001-4c70-bb2a-ab41f3b81aa3")
      public interface IMsDinnerService {
 	
 	  @ApiOperation(value="餐饮预定", response=Void.class)
@@ -305,9 +289,9 @@ CONFIRMED(成功确认后的状态)
      * @author Administrator
      *
      */
-     @RemoteCall(AppConstant.APP_INFO_MSGSERVICE)
+     @RemoteCall("tcc-msg-gh@c87e2267-1001-4c70-bb2a-ab41f3b81aa3")
      public interface IMsMsgService {
-	 @ApiOperation(value="短信服务", response=Void.class)
+	  @ApiOperation(value="短信服务", response=Void.class)
 	  @TccTransactional(confirm="confirmMsg", cancel="cancelMsg")
 	  @Async
 	  public abstract void sendMsg(String phone, String msg, String bizId);
@@ -319,17 +303,16 @@ CONFIRMED(成功确认后的状态)
 	  @ApiOperation(value="取消短信服务", response=Void.class)
 	  @Async
 	  public abstract void cancelMsg(TccTransactionContext context, String phone, String msg, String bizId);
-}
-
+     }
 
     /**
      * 异步服务
      * @author Administrator
      *
      */
-   @RemoteCall(AppConstant.APP_INFO_MSGfEESERVICE)
-   public interface IMsMsgFeeService {
-	 @ApiOperation(value="短信计费服务", response=Void.class)
+    @RemoteCall("tcc-msgfee-gh@c87e2267-1001-4c70-bb2a-ab41f3b81aa3")
+    public interface IMsMsgFeeService {
+	  @ApiOperation(value="短信计费服务", response=Void.class)
 	  @TccTransactional(confirm="confirmMsgFee", cancel="cancelMsgFee")
 	  public abstract void MsgFee(String bizId, Double fee);
 
@@ -340,12 +323,117 @@ CONFIRMED(成功确认后的状态)
 	  @ApiOperation(value="取消短信计费服务", response=Void.class)
 	  @Async
 	  public abstract void cancelMsgFee(TccTransactionContext context, String bizId, Double fee);
-}
+    }
+
+
+## 第二步：开发服务，导入接口项目依赖，实现各个接口，在服务内实现服务之间的调用关系及confirm & cancel
+新建maven项目，导入接口项目依赖及eos、sdk等其他依赖包，pom.xml如下
+
+          <!--eos框架-->
+		<dependency>
+			<groupId>com.yonyou.cloud.middleware</groupId>
+			<artifactId>eos-spring-support</artifactId>
+			<!--需要引入eos-spring-support 5.1.0以后的包-->
+			<version>${mw.version}</version>
+		</dependency>
+
+		<!--tcc事务框架包-->
+		<dependency>
+			<groupId>com.yonyou.cloud.middleware</groupId>
+			<artifactId>Tcc</artifactId>
+			<version>${Tcc.version}</version>
+		</dependency>
+		<!--引入middleware sdk-->
+		<dependency>
+			<groupId>com.yonyou.cloud.middleware</groupId>
+			<artifactId>mwclient</artifactId>
+			<version>${mw.version}</version>
+			<type>pom</type>
+		</dependency>
+
+**在 springContext.xml配置文件中配置数据源、事务管理器、eos及tcc相关的bean定义**
+
+*  在项目配置文件中加入相关bean定义
+tcc和eos框架本身需要对数据库进行读写，内部使用了jdbctemplate进行数据库操作，业务尽量也使用jdbctemplate来进行数据库操作，事务及数据源都交由spring容器管理。
+如果业务需要用其它orm框架，如hibernate、mybatis或者jpa，需要确保jdbctemplate和业务orm框架兼容使用同一数据源及事务管理器，确保业务和eos、tcc框架能在一个事务中。
+jpa：业务使用jpa操作数据库时，EOSConfig配置的jdbctemplate要所配置DataSource要与jpa事务管理器使用同一个DataSource，TransactionManager应使用JpaTransactionManager
+hibernate：业务使用hibernate操作数据库时使用 HibernateTransactionManager事务管理器
+mybatis：业务使用mybatis操作数据库时使用DataSourceTransactionManager事务管理器
+jdbctemplate：业务使用jdbctemplate操作数据库时使用DataSourceTransactionManager事务管理器
+
+```
+     <bean id="eosConfig" class="com.yonyou.cloud.config.eos.EOSConfig">
+    		<property name="jdbcTemplate" ref="jdbcTemplate"/>
+    		<property name="transactionManager" ref="transactionManager"/>
+    		<property name="authSDKClient" ref="authSDKClient"/>
+    		<property name="fullScanIntevalSend" value="0"/>
+    		<property name="fullScanIntevalActionLog" value="0"/>
+ 	     <!--eos控制台地址，默认为registry地址+/eos-console/-->      	 
+ 	     <property name="eosCenterUrl" value="${eos.cloud.url:http://localhost/eos-console/}"/>
+     </bean>
+    
+     <bean id="tccMonitorConfig" class="com.yonyou.cloud.config.TccMonitorConfig">
+         <!--tcc事务控制台地址--，默认为registry地址+/eos-console/> 
+ 	  <property name="tccMonitorUrl" value="${tcc.cloud.url:https://developer-test.yonyoucloud.com/eos-console/}"/> 
+     </bean>
+     
+     <!--jdbctemplate，配置数据库操作的jdbctemplate-->
+     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"></property>
+     </bean>
+
+     <!-- 启用spring事务管理器 -->
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+     <!-- 事务配置 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+ 
+     <!-- 数据源配置, 使用Tomcat JDBC连接池    -->
+    <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close" lazy-init="false">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+
+        <property name="defaultAutoCommit" value="false"/>
+        <property name="maxActive" value="${jdbc.pool.maxActive}"/>
+        <property name="maxIdle" value="${jdbc.pool.maxIdle}"/>
+        <property name="minIdle" value="${jdbc.pool.minIdle}"/>
+        <property name="maxWait" value="${jdbc.pool.maxWait}"/>
+        <property name="minEvictableIdleTimeMillis" value="${jdbc.pool.minEvictableIdleTimeMillis}"/>
+        <property name="removeAbandoned" value="${jdbc.pool.removeAbandoned}"/>
+        <property name="removeAbandonedTimeout" value="${jdbc.pool.removeAbandonedTimeout}"/>
+        <property name="testWhileIdle" value="true"/> 
+        <property name="validationQuery" value="select 1"/> 
+    </bean>  
+
+    <!--数据库连接池信息，tcc创建内部数据源使用，保持跟业务数据源配置信息一致  -->
+    <bean id="specialJdbcTemplateConfig" class="com.yonyou.cloud.config.SpecialJdbcTemplateConfig">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="defaultAutoCommit" value="true"/>
+        <property name="maxActive" value="${jdbc.pool.maxActive}"/>
+        <property name="maxIdle" value="${jdbc.pool.maxIdle}"/>
+        <property name="minIdle" value="${jdbc.pool.minIdle}"/>
+        <property name="maxWait" value="${jdbc.pool.maxWait}"/>
+        <property name="minEvictableIdleTimeMillis" value="${jdbc.pool.minEvictableIdleTimeMillis}"/>
+        <property name="removeAbandoned" value="${jdbc.pool.removeAbandoned}"/>
+        <property name="removeAbandonedTimeout" value="${jdbc.pool.removeAbandonedTimeout}"/>
+    </bean> 
+    
+    <!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
+    <context:component-scan base-package="com.yonyou.cloud">
+	    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	    <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
 ```
 
-
-
 * 服务提供方实现业务接口
+
 ```
        /**
         * 订单服务
@@ -370,6 +458,7 @@ CONFIRMED(成功确认后的状态)
 	  @Transactional
 	  public TourOrder order(TourOrder dto) {
 		dto.setStatus(AppConstant.CONFIRMING);
+		//执行当前服务的业务数据
 		this.jdbcTemplate
 				.update("insert into biz_tourorder (orderName,userId,userName,dest,status,tourOrderId) values (?,?,?,?,?,?)",
 						new Object[] { dto.getOrderName(), dto.getUserId(),
@@ -385,14 +474,15 @@ CONFIRMED(成功确认后的状态)
 		planeOrder.setUserId(dto.getUserId());
 		planeOrder.setStatus(AppConstant.CONFIRMING);
 		try {
-		// 将当前业务数据保存到当前事务中，便于在confirm或cancel时能够获取到该业务数据做提交或回退操作
+		// 将当前业务数据保存到当前事务上下文中，便于在confirm或cancel时能够获取到该业务数据做提交或回退操作
 			System.out.println(OBJECT_MAPPER.writeValueAsString(dto));
 			TccTransactionUtils.setContext(OBJECT_MAPPER.writeValueAsString(dto));
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new RuntimeException("参数序列化异常");
 		}
-	    this.msPlaneService.orderPlane(planeOrder);
+		// 发起对plane服务的调用，形成过一个同步调用链
+	        this.msPlaneService.orderPlane(planeOrder);
 		HotelOrder hotelOrder = new HotelOrder();
 		hotelOrder.setStart(new DateTime().toString());
 		hotelOrder.setEnd(new DateTime().toString());
@@ -402,10 +492,13 @@ CONFIRMED(成功确认后的状态)
 		hotelOrder.setStatus(AppConstant.CONFIRMING);
 		hotelOrder.setUserId(dto.getUserId());
 		hotelOrder.setUserName(dto.getUserName());
+
+		// 发起对hotel服务的调用，形成过一个同步调用链
 		this.msHotelService.orderHotel(hotelOrder);
 		return dto;
 	  }
 
+          // 整个调用链成功时，框架自动异步地执行该方法，确认业务的操作
 	  @Transactional
 	  public TourOrder confirmOrder(TccTransactionContext context,TourOrder dto) {
 	        //获取当前事务上下文数据
@@ -416,7 +509,7 @@ CONFIRMED(成功确认后的状态)
 				new Object[] { AppConstant.CONFIRMED, dto.getTourOrderId() });
 		return dto;
 	  }
-	
+	// 整个调用链有失败时，框架自动异步地执行该方法，取消业务的操作
 	  @Transactional
 	  public TourOrder cancelOrder(TccTransactionContext context,TourOrder dto) {
 	        //获取当前事务上下文数据
@@ -763,7 +856,8 @@ CONFIRMED(成功确认后的状态)
       }
 ```
 
-* 服务型消费方调用业务业务接口
+* 服务消费方调用业务业务接口
+
 ```
       @Service("webApiService")
       public class WebApiService {
@@ -785,3 +879,46 @@ CONFIRMED(成功确认后的状态)
 	  }
       }
 ```
+## 第三步：将以上9个服务build生成war包，copy到tomcat或者在开发者中心持续构建或流水线构建
+服务启动后，业务数据库应该包含如下数据库表。其中，以日期为表名后缀的表采用了分表策略，默认首次启动后悔创建当前日期前后十天的备用表。
+启动后，开发者中心的有如下几个服务，如图
+![](./images/demos.png)
+
+
+## 第四步：为服务配置可靠消息队列
+
+ 要使用tcc框架开发分布式事务应用,在应用启动后，需要配置应用的RabbitMQ消息队列的地址:
+* 页面导航: 开发者中心左边菜单 &gt;&gt; 微服务 &gt;&gt; 服务管理 &gt;&gt; 找到对应的应用 &gt;&gt; 点进对应的环境 &gt;&gt; 微服务 &gt;&gt;服务管理 &gt;&gt;可高消息 &gt;&gt; 消息队列配置 &gt;&gt; 在输入框中填写RabbitMQ地址, 如: IP1:Port1,IP2:Port2; 参见下图:
+![](./images/eos-console.png)
+* 消息地址配置输入框:
+![](./images/rabbitmq-config.png)
+
+* 配置完消息地址后, 按照异步框架的开发指南进行工程配置, 若有异常会上报到EOS控制台; 按照以下步骤查询异常消息: <p>开发者中心左边菜单 &gt;&gt; 微服务 &gt;&gt; 服务管理 &gt;&gt; 找到对应的应用 &gt;&gt; 点进对应的环境 &gt;&gt; 微服务 &gt;&gt; **可靠消息** &gt;&gt;</p>
+* 点击重试后会下发命令到客户端进行重试, 客户端重试完成后会上报重试结果, 重试成功后会在状态列中显示"重试成功", 否则显示"重试失败".
+* 点击忽略后会下发命令到客户端进行忽略, 被忽略的消息应交由人工处理, 进行数据的校对和检查.
+![](./images/mq-process.png)
+
+## 第五步：验证
+向webapi服务发起http请求，请求为http://host:port/tcc-webapi/tcc/order/?name=***&dest=**
+正常情况下：返回结果为 success：.....，代表请求正常，业务执行成功
+事务数据正确性：各业务节点中tcc_transaction_*中应有一条事务数据，order和msg服务节点类型为ROOT,其它节点为BRANCH，且状态因为CONFIRMED
+业务数据正确性：各业务节点的业务表中数据应为CONFIRMED，整个事务完成了CONFIRMED
+
+若返回结果为 error:.....，代表请求失败，事务会回滚，各业务节点中是否状态为FAILED的节点，业务数据没有插入成功，事务状态为CANCEL的节点，业务数据状态应为DELETED,整个事务回退
+
+
+
+## 第六步：消息异常处理
+* 如果消息收发异常，如cancel或confirm方法抛出异常会导致消息接收异常，或应用未配置可靠消息队列，会导致向该应用发送消息异常，如遇到收发消息异常，
+框架会自动将该事务链上所有节点事务信息上报到云端，如图：
+![](./images/tcc-error.png)
+
+* 点击详情进入该事务，可以查看该事务的所有事务节点，并查看其状态，如图所示代表order向hotel发送消息异常，如图
+![](./images/tcc-msg.png)
+
+* 将导致收发消息失败的问题解决后，点击重试，重新发送或接收消息，当消息重试成功后整个事务链的事务最终一致，都为CONFIRMED或CANCEL及FAILED,如图
+![](./images/tcc-suc.png)
+
+
+有权限进入业务的人员可以查看当前业务所参与的所有事务，并可以查看，该用户可以重试或忽略当前业务的不一致事务，但是不可用操作该事务所在全局事务的其他业务节点
+如图
