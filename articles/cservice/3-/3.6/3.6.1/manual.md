@@ -36,14 +36,14 @@ EOS 充分利用快速的异步消息和本地事务，并在此基础上提供�
 * 第一步：开发公共接口,maven工程
 
      ```
-               <parent>
+          <parent>
 		    <groupId>com.yonyou.cloud</groupId>
 		    <artifactId>rpceos-demosi</artifactId>
 		    <version>5.1.1-SNAPSHOT</version>
-	       </parent>
-	       <artifactId>rpcprovider-pubapi</artifactId>
-	       <packaging>jar</packaging>
-                <!--引入eos-->
+	     </parent>
+	     <artifactId>rpcprovider-pubapi</artifactId>
+	     <packaging>jar</packaging>
+          <!--引入eos-->
 		<dependency>
 			<groupId>com.yonyou.cloud.middleware</groupId>
 			<artifactId>eos-spring-support</artifactId>
@@ -69,21 +69,19 @@ EOS 充分利用快速的异步消息和本地事务，并在此基础上提供�
 	  @Async
 	  public abstract String cancelOrder(String echo);
      }
-   
-   ```
-
+    	```
 
 * 第二步：开发服务端项目,maven工程
 
        ```
-                <parent>
+          <parent>
 		    <groupId>com.yonyou.cloud</groupId>
 		    <artifactId>rpceos-demos</artifactId>
 		    <version>5.1.1-SNAPSHOT</version>
-	       </parent>
-	       <artifactId>rpcprovider-pubapi</artifactId>
-	       <packaging>jar</packaging>
-                <!--引入eos-->
+	     </parent>
+	     <artifactId>rpcprovider-pubapi</artifactId>
+	     <packaging>jar</packaging>
+          <!--引入eos-->
 		<dependency>
 			<groupId>com.yonyou.cloud.middleware</groupId>
 			<artifactId>eos-spring-support</artifactId>
@@ -98,7 +96,7 @@ EOS 充分利用快速的异步消息和本地事务，并在此基础上提供�
 			<type>pom</type>
 		</dependency>
 
-                <!--引入公共接口-->
+          <!--引入公共接口-->
 		<dependency>
 			<groupId>com.yonyou.cloud</groupId>
 			<artifactId>rpcprovider-pubapi</artifactId>
@@ -119,9 +117,8 @@ EOS 充分利用快速的异步消息和本地事务，并在此基础上提供�
 	      return "hello" + echo;
 	  }
      }
-
-   ```
-
+       ```
+   
 * 第三步：开发客户端项目,maven工程
 
    ```
