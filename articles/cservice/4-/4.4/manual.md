@@ -110,7 +110,7 @@
 	</bean>
 
 
-#### EOS数据库建库脚本:
+#### EOS数据库建库脚本及数据结构，引用框架会自动建表，用户不必自己创建
 	
 	/*!40101 SET NAMES utf8 */;
 	
@@ -235,7 +235,8 @@
 	
 	DROP TABLE IF EXISTS `eos_mqsend_success`;
 	
-	CREATE TABLE `eos_mqsend_success` (
+	<!--此表采用了分表策略，默认创建好十天内的表，表名后缀为日期，数据中gitd字段前八位为年月日-->
+	CREATE TABLE `eos_mqsend_success_20181209` (
 	  `pk` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'DB主键(为性能提升)',
 	  `id` varchar(36) NOT NULL COMMENT '业务主键-UUID',
 	  `txid` varchar(36) DEFAULT NULL COMMENT '事务ID-UUID',
@@ -601,12 +602,6 @@ EOS配置项有许多, 可根据实际业务情况稍加调整.
         <td></td>
         <td>即使框架检测到"不"需要发送MQ消息, 如果此值设置为true, 那么也会扫描DB发送MQ消息.</td>
         <td>false</td>
-    </tr>
-    <tr>
-        <td>batchMoveToBakCount</td>
-        <td></td>
-        <td>每次批量移动成功的消息到备份表的数量</td>
-        <td>5000</td>
     </tr>
     <tr>
         <td>senderClassName</td>
