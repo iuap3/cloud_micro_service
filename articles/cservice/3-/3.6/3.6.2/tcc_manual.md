@@ -82,8 +82,8 @@ CONFIRMED(成功确认后的状态)
 <tr align="left"><td>parent_pk</td> <td>bigint</td> <td>上级事务pk</td> </tr> 
 <tr align="left"><td>invocation</td> <td>blob</td> <td>rpc上下文</td> </tr> 
 </table>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-*  要使用tcc事务，需要引入sdk、eos及tcc框架，且需要在业务数据库中创建eos和tcc相关的数据库表
+
+* 要使用tcc事务，需要引入sdk、eos及tcc框架，且需要在业务数据库中创建eos和tcc相关的数据库表
    引入eos框架后，应用启动后悔自动创建以下几个数据库表：<br/>
    tm_locks<br/>
    tm_mqerror<br/>
