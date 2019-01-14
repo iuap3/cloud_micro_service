@@ -108,15 +108,14 @@ EOS 充分利用快速的异步消息和本地事务，并在此基础上提供�
        * @author Administrator
        *
        */
-     @RemoteCall("rpcprovider@c87e2267-1001-4c70-bb2a-ab41f3b81aa3")
-     public class ServiceImpl implements IService {
-
+     	@RemoteCall("rpcprovider@c87e2267-1001-4c70-bb2a-ab41f3b81aa3")
+     	public class ServiceImpl implements IService {
 	  @ApiOperation(value="echo服务", response=String.class)
 	  @Async
 	  public  String cancelOrder(String echo) {
 	      return "hello" + echo;
 	  }
-     }
+       }
        ```
    
 * 第三步：开发客户端项目,maven工程
