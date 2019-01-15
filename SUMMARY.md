@@ -38,6 +38,7 @@
   * [指定调用](articles/cservice/4-/4.6/manual.md)
   * [IUAP上下文传递](articles/cservice/4-/4.7/manual.md)
   * [Dubbox适配](articles/cservice/4-/4.8/manual.md)
+  * [Feign迁移](articles/cservice/4-/4.16/manual.md)
   * [SpringBoot支持](articles/cservice/4-/4.9/manual.md)
   * [熔断API](articles/cservice/4-/4.10/manual.md)
   * [业务跟踪](articles/cservice/4-/4.11/manual.md)
@@ -45,6 +46,7 @@
   * [服务监控](articles/cservice/4-/4.13/manual.md)
   * [Tcc事务](articles/cservice/4-/4.14/manual.md)
   * [服务端接口校验](articles/cservice/4-/4.15/manual.md)
+  * [异常白名单插件](articles/cservice/4-/4.17/manual.md)
 * 参考示例
   * [示例介绍](articles/cservice/5-/5.1/manual.md)
   * [示例运行](articles/cservice/5-/5.2/manual.md)
