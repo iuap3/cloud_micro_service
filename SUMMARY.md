@@ -46,6 +46,7 @@
   * [服务监控](articles/cservice/4-/4.13/manual.md)
   * [Tcc事务](articles/cservice/4-/4.14/manual.md)
   * [服务端接口校验](articles/cservice/4-/4.15/manual.md)
+  * [异常白名单插件](articles/cservice/4-/4.17/manual.md)
 * 参考示例
   * [示例介绍](articles/cservice/5-/5.1/manual.md)
   * [示例运行](articles/cservice/5-/5.2/manual.md)
