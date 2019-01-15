@@ -66,9 +66,49 @@
 
 
 ### war包合并
-微服务开发完成之后如果需要合并部分war包，每个未打war项目需要在META-INF下增加以appCode命名的xxxxx.parent文件。文件内容为
-```
-parent=xxxxx
+
+## 新建工程合并war包
+```xml
+        <dependency>
+            <groupId>com.yonyou.cloud.ms</groupId>
+            <artifactId>rpc-client</artifactId>
+            <version>5.1.1-RELEASE</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>com.yonyou.cloud.ms</groupId>
+            <artifactId>rpc-provider</artifactId>
+            <version>5.1.1-RELEASE</version>
+            <type>war</type>
+        </dependency>
 ```
 
-并且文件需要放在服务提供方下
+## 添加配置文件覆盖war包中的配置文件
+
+```properties
+access.key=xxxxx
+access.secret=xxxxxxxxx
+
+spring.application.name=client-provider
+spring.profiles.active=online
+
+registry=http://172.20.52.128
+
+jdbc.driver=com.mysql.cj.jdbc.Driver
+jdbc.url=jdbc:mysql://xxx.xx.xx.xxx:3306/rpc-provider?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+jdbc.password=xxxx
+jdbc.username=xxxx
+```
+
+## 新增parent配置文件
+
+resources下新建META-INF文件夹用于存放parent文件
+创建${appCode}-${providerId}.parent文件，比如
+rpc-client-511-c87e2267-1001-4c70-bb2a-ab41f3b81aa3.parent。
+providerId可以省略为***rpc-client-511.parent***内容为
+
+```
+	parent=client-provider
+```
+
+***注意:***  每个需要合并项目都需要建一个parent文件，放在与之有调用关系的服务下
