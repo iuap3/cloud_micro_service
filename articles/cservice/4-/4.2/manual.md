@@ -111,4 +111,7 @@ providerId可以省略为***rpc-client-511.parent***内容为
 	parent=client-provider
 ```
 
-***注意:***  每个需要合并项目都需要建一个parent文件，放在与之有调用关系的服务下
+***注意:***  
+- 每个需要合并项目都需要建一个parent文件，放在与之有调用关系的服务下
+- 如果有bean冲突需要手动解决
+
