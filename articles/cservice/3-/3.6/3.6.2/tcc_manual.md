@@ -38,6 +38,7 @@ TccTransaction是一个没有事务协调器、没有事务中心概念，事务
 
 ## 数据库模型:
 Tcc事务框架要求每个事务节点各自记录事务信息，通过以下两个表记录事务及事务调用关系
+
 <br>**1.tcctransation表：记录当前业务参与的事务上下文及状态信息**
 <table border="1px" align="left" bordercolor="black" width="80%"">
 <tr align="left"><td>字段名字</td><td>字段类型</td><td>备注</td></tr>
