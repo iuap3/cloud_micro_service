@@ -35,7 +35,7 @@ RPC的远程调用通过客户端的本地Service的方法进行触发，可以�
 3. 本地Service通过Spring Bean的方式引入远程服务并调用；
 4. 远程服务提供实现并返回数据；
 
-例如，在浏览器中输入http://localhost:8080/rpc-client进行调用，调用结果如下：
+例如，在浏览器中输入[http://localhost:8080/rpc-client](http://localhost:8080/rpc-client/ "http://localhost:8080/rpc-client")进行调用，调用结果如下：
 
 ![](images/demo.png)
 
@@ -96,7 +96,7 @@ RPC的远程调用通过客户端的本地Service的方法进行触发，可以�
 **几个重要的时间段**
 
 - 注册到服务注册中心:
-	- 实例心跳上报时间间隔: 30秒; 第一次心跳在30秒后(参见:[HeartbeatThread](com.netflix.discovery.DiscoveryClient.initScheduledTasks() "HeartbeatThread") 和 [TimedSupervisorTask](com.netflix.discovery.TimedSupervisorTask.TimedSupervisorTask ("TimedSupervisorTask"))
+	- 实例心跳上报时间间隔: 30秒; 第一次心跳在30秒后(参见:[HeartbeatThread](com.netflix.discovery.DiscoveryClient.initScheduledTasks "HeartbeatThread") 和 [TimedSupervisorTask](com.netflix.discovery.TimedSupervisorTask.TimedSupervisorTask ("TimedSupervisorTask"))
 	
 - 实例状态刷新
 	- 45秒如果服务注册中心未接收到心跳, 将会计划移除此实例.
