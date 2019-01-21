@@ -43,7 +43,7 @@ rpc-api工程为其它三个工程的公共依赖，工程内定义了RPC同步�
 各个接口的实现分布在rpc-provider和rpc-server两个服务提供者工程中，接口中使用到了注解，注解示例如下：
 
 	//注解中value的格式为appcode@providerid
-	@RemoteCall(“rpc-provider@c87e2267-1001-4c70-bb2a-ab41f3b81aa3”)
+	@RemoteCall(“rpc-provider@租户id”)
 
 	//使用Async注解标识异步方法
 	@Async

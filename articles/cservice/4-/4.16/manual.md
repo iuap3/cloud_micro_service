@@ -43,13 +43,12 @@ access:
 远程接口
 
 ```java
-@RemoteCall("cloud-service@c87e2267-1001-4c70-bb2a-ab41f3b81aa3")
 public interface CreditApi {
 }
 
 //修改为
 
-@RemoteCall("cloud-service@c87e2267-1001-4c70-bb2a-ab41f3b81aa3")
+@RemoteCall("服务提供方名字@providerid")
 public interface CreditApi {
 }
 ```
