@@ -104,7 +104,7 @@ jdbc.username=xxxx
 
 resources下新建META-INF文件夹用于存放parent文件
 创建${appCode}-${providerId}.parent文件，比如
-rpc-client-511-c87e2267-1001-4c70-bb2a-ab41f3b81aa3.parent。
+rpc-client-511-providerID.parent。
 providerId可以省略为***rpc-client-511.parent***内容为
 
 ```
