@@ -32,7 +32,7 @@
 
 1. access.key和access.secret与申请的Access Key中内容保持一致
 
-2. spring.profiles.active为应用的环境(开发：dev，测试：test，灰度：stage，生产：online)
+2. spring.profiles.active为应用的环境(开发：dev，测试：test，灰度：stage，生产：online，日常：daily，联调：combine)
 
 3. spring.application.name为应用的编码
 

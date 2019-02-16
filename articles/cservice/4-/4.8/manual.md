@@ -119,7 +119,7 @@ maven组件依赖对应的pom.xml中，依赖如下：
 	#dubbo适配
 	dubbo.business.group=ms-dubbo-server@providerid
 
-其中access.key、access.secret和providerid需要使用开发者的账号，到对应的开发者中心的环境中申请。c87e2267-1001-4c70-bb2a-ab41f3b81aa3为示例中预置的providerid。
+其中access.key、access.secret和providerid需要使用开发者的账号，到对应的开发者中心的环境中申请。
 
 修改服务端工程的属性配置文件，修改后内容如下：
 
@@ -129,7 +129,7 @@ maven组件依赖对应的pom.xml中，依赖如下：
 	spring.application.name=ms-dubbo-server
 	spring.profiles.active=dev
 	
-	dubbo.business.group=ms-dubbo-server@c87e2267-1001-4c70-bb2a-ab41f3b81aa3
+	dubbo.business.group=ms-dubbo-server@providerid
 
 至此，原dubbox工程到微服务治理平台工程的适配已经修改成功，可以使用jetty的方式或者打成war包的方式进行调用。
 
