@@ -34,7 +34,7 @@
 
 2. spring.profiles.active为应用的环境(开发：dev，测试：test，灰度：stage，生产：online，日常：daily，联调：combine)
 
-3. spring.application.name为应用的编码
+3. spring.application.name为应用的编码，其内容应与RemoteCall注解中的应用编码部分一致（RemoteCall注解由应用编码@租户id组成）
 
 ### （3）spring配置文件 ###
 
