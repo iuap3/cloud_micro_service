@@ -38,6 +38,7 @@
   * [指定调用](articles/cservice/4-/4.6/manual.md)
   * [IUAP上下文传递](articles/cservice/4-/4.7/manual.md)
   * [Dubbox适配](articles/cservice/4-/4.8/manual.md)
+  * [Dubbo-fuse迁移](articles/cservice/4-/4.18/manual.md)
   * [Feign迁移](articles/cservice/4-/4.16/manual.md)
   * [SpringBoot支持](articles/cservice/4-/4.9/manual.md)
   * [熔断API](articles/cservice/4-/4.10/manual.md)
