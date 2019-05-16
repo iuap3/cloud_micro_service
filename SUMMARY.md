@@ -48,6 +48,8 @@
   * [服务端接口校验](articles/cservice/4-/4.15/manual.md)
   * [异常白名单插件](articles/cservice/4-/4.17/manual.md)
   * [Dubbo-fuse适配](articles/cservice/4-/4.18/manual.md)
+  * [自定义拦截插件](articles/cservice/4-/4.19/manual.md)
+  * [AuthSDK使用说明](articles/cservice/4-/4.20/manual.md)
 * 参考示例
   * [示例介绍](articles/cservice/5-/5.1/manual.md)
   * [示例运行](articles/cservice/5-/5.2/manual.md)

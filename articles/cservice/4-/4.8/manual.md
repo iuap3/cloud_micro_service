@@ -115,6 +115,7 @@ maven组件依赖对应的pom.xml中，依赖如下：
 	
 	spring.application.name=ms-dubbo-client
 	spring.profiles.active=dev
+	registry=http://172.20.52.128#要注册的地址
 	
 	#dubbo适配
 	dubbo.business.group=ms-dubbo-server@providerid

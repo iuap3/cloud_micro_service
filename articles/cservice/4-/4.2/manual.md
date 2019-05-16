@@ -29,7 +29,6 @@
 	# 启用mock调用时针对某个调用者的具体IP指定
 	appCode@providerId@profile=172.20.1.1
 
-
 ## applicationContext.xml配置
 
 ### · 典型最小化配置
