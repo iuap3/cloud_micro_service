@@ -74,6 +74,10 @@ mw_profiles_active的值建议修改成dev、test、stage、online，分别对�
 3.RemoteCall注解：
 >@RemoteCall(rpc-provider@租户id)
 
+### 9：关于server端接收不到数据请求问题：
+
+解决方案：/CloudRemoteCall 路径不要被拦截
+
 ## 微服务控制台常见问题
 
 ### 1：应用工程的创建过程问题

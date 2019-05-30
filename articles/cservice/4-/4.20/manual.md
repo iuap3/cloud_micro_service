@@ -20,6 +20,8 @@
 
 ### 加签客户端的使用示例
 
+#### form表单形式示例
+
 	@Test
 	public void testAuthSDKClient() {
 		String accessKey = "accessKeyTest";
@@ -43,6 +45,35 @@
 		// Http状态码和返回的内容字符串
 		System.out.println(ret.getStatusCode() + "  " + ret.getResponseString());
 	}
+
+#### json形式示例
+	@Test
+    public void testJson() {
+        try {
+            BusinessDTO business = new BusinessDTO();
+
+            business.setKey1("value1");
+            business.setKey2("value2");
+            business.setKey3("value3");
+
+            String accessKey = "accessKeyTest";
+            String accessSecret = "accessSecretTest";
+
+            AuthSDKClient authSDKClient = new AuthSDKClient(accessKey, accessSecret);
+
+            String url = "http://127.0.0.1:8080/business/api/version/test";
+            StringEntity reqEntity = new StringEntity(new ObjectMapper().writeValueAsString(transfer), ContentType.APPLICATION_JSON);
+
+            HttpPost httpPost = new HttpPost(url);
+            httpPost.setHeader("Content-type", "application/json; charset=utf-8");
+            httpPost.setEntity(reqEntity);
+
+            HttpResult httpRet = authSDKClient.execute(httpPost);
+
+            System.out.println(httpRet.getStatusCode() + "==>" + httpRet.getResponseString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 ### 更新extendedAttributes扩展属性的值示例
 
