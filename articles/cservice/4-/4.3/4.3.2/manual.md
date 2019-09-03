@@ -16,6 +16,8 @@
 		- required: 是否必填
 		- exampleValue: 示例值
 		- moreRestrictions: 限制说明
+	- 注意:
+		- ApiParam注解不得使用中文
 - 作用于API接口返回值的描述, 标注在返回值的文档注释.
 	- 注解: @com.yonyou.cloud.mwclient.servmeta.annotation.ApiReturnValue
 	- 注解属性详解:

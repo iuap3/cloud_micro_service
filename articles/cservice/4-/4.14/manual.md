@@ -8,7 +8,7 @@ tcc事务框架使用最佳实践，本实例以旅游订单为例，共涉及�
           <parent>
 		    <groupId>com.yonyou.cloud</groupId>
 		    <artifactId>tcc-demos</artifactId>
-		    <version>5.1.1-SNAPSHOT</version>
+		    <version>5.2.1-RELEASE</version>
 	     </parent>
 	     <artifactId>tcc-pubapi</artifactId>
 	     <packaging>jar</packaging>
@@ -17,21 +17,21 @@ tcc事务框架使用最佳实践，本实例以旅游订单为例，共涉及�
 		<dependency>
 			<groupId>com.yonyou.cloud.middleware</groupId>
 			<artifactId>tcc</artifactId>
-			<version>${tcc.version}</version>
+			<version>5.2.1-RELEASE</version>
 		</dependency>
 		
                 <!--引入eos-->
 		<dependency>
 			<groupId>com.yonyou.cloud.middleware</groupId>
 			<artifactId>eos-spring-support</artifactId>
-			<version>${eos-spring-support.version}</version>
+			<version>5.2.1-RELEASE</version>
 		</dependency>
 		
 		      <!--引入sdk-->
 		<dependency>
 			<groupId>com.yonyou.cloud.middleware</groupId>
 			<artifactId>mwclient</artifactId>
-			<version>${mw.version}</version>
+			<version>5.2.1-RELEASE</version>
 			<type>pom</type>
 		</dependency>
 

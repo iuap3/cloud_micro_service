@@ -7,7 +7,7 @@
 	<dependency>
 		<groupId>com.yonyou.cloud.middleware</groupId>
 		<artifactId>mwclient</artifactId>
-		<version>5.1.1-RELEASE</version>
+		<version>5.2.1-RELEASE</version>
 		<type>pom</type>
 	</dependency>
 
@@ -24,10 +24,13 @@
 	# 应用部署的环境(开发:dev,测试:test,灰度:stage,线上:online)
 	spring.profiles.active=dev
 	
-	#开发调试时指定IP调用的配置(默认为false, yml下值应加上双引号), 
+	#开发调试时指定IP调用的配置(默认为false, yml下值应加上双引号)
 	client.usemock=false
 	# 启用mock调用时针对某个调用者的具体IP指定
 	appCode@providerId@profile=172.20.1.1
+
+	#5.2.1版本新增配置微服务动态配置(默认为false，即不拉取配置文件更新,yml下值应加上双引号)
+	app.metainfo.ms_dyn_enable=true
 
 ## applicationContext.xml配置
 
@@ -63,54 +66,19 @@
 	    </constructor-arg>
 	</bean>
 
+## app.metainfo
 
-### war包合并
+app.metainfo.xxx是微服务的各项配置(所有的value都是字符串)
 
-## 新建工程合并war包
-```xml
-        <dependency>
-            <groupId>com.yonyou.cloud.ms</groupId>
-            <artifactId>rpc-client</artifactId>
-            <version>5.1.1-RELEASE</version>
-            <type>war</type>
-        </dependency>
-        <dependency>
-            <groupId>com.yonyou.cloud.ms</groupId>
-            <artifactId>rpc-provider</artifactId>
-            <version>5.1.1-RELEASE</version>
-            <type>war</type>
-        </dependency>
-```
-
-## 添加配置文件覆盖war包中的配置文件
-
-```properties
-access.key=xxxxx
-access.secret=xxxxxxxxx
-
-spring.application.name=client-provider
-spring.profiles.active=online
-
-registry=http://172.20.52.128
-
-jdbc.driver=com.mysql.cj.jdbc.Driver
-jdbc.url=jdbc:mysql://xxx.xx.xx.xxx:3306/rpc-provider?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
-jdbc.password=xxxx
-jdbc.username=xxxx
-```
-
-## 新增parent配置文件
-
-resources下新建META-INF文件夹用于存放parent文件
-创建${appCode}-${providerId}.parent文件，比如
-rpc-client-511-providerID.parent。
-providerId可以省略为***rpc-client-511.parent***内容为
-
-```
-	parent=client-provider
-```
-
-***注意:***  
-- 每个需要合并项目都需要建一个parent文件，放在与之有调用关系的服务下
-- 如果有bean冲突需要手动解决
-
+配置项|默认值|描述
+:---:|:---:|:---
+ms_dyn_enable| true | 微服务动态控制开启
+ribbon.retryOnAllErrors|false|rpc异常是否重试
+ribbon.loadBalancer|com.yonyou.cloud.middleware.loadbalancer.ZoneAwareLoadBalancer|负载均衡loadBalancer
+ribbon.ping|com.yonyou.cloud.middleware.iris.loadbalancer.check.MetricDiscoveryPing|负载均衡ping实现
+ribbon.serverListUpdater|com.yonyou.cloud.middleware.eureka.EurekaNotificationServerListUpdater|服务列表更新updater
+ribbon.rule|com.yonyou.cloud.middleware.loadbalancer.AvailabilityFilteringRule|负载均衡rule
+ribbon.IClient|com.yonyou.cloud.middleware.rpc.RpcRetryClient|rpc client
+ribbon.retryNext|3|rpc重试其他节点次数
+ribbon.retrySame|0|rpc重试当前节点次数
+ribbon.retryOnConnectErrors|true|网络异常是否重试
