@@ -96,7 +96,7 @@ RPC的远程调用通过客户端的本地Service的方法进行触发，可以�
 **几个重要的时间段**
 
 - 注册到服务注册中心:
-	- 实例心跳上报时间间隔: 30秒; 第一次心跳在30秒后(参见:==DiscoveryClient==和 ==TimedSupervisorTask==）
+	- 实例心跳上报时间间隔: 30秒; 第一次心跳在30秒后(参见:==DiscoveryClient==和 ==TimedSupervisorTask==
 	
 - 实例状态刷新
 	- 45秒如果服务注册中心未接收到心跳, 将会计划移除此实例.

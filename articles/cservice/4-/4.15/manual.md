@@ -10,7 +10,7 @@ maven组件依赖对应的pom.xml中，依赖如下：
 	<dependency>
 		<groupId>com.yonyou.cloud.middleware</groupId>
 		<artifactId>iris-validate-support</artifactId>
-		<version>5.2.1-RELEASE</version>
+		<version>5.1.1-RELEASE</version>
 	</dependency>
 
 
@@ -59,9 +59,9 @@ maven组件依赖对应的pom.xml中，依赖如下：
 
 	
 - 进行API调用, 如果参数校验未通过, 则服务端会抛出IllegalArgumentException, 异常Message中包含不符合校验规则的参数信息,如:
-		
+```
 		com.yonyou.cloud.exception.PluginRuntimeException: java.lang.IllegalArgumentException: [apiWithValidateParams.arg0的值为:([Ljava.lang.String;@7dacbbd9),验证失败原因:=>不能为空], [apiWithValidateParams.arg1.email的值为:(abc+qq.com),验证失败原因:=>不是一个合法的电子邮件地址], [apiWithValidateParams.arg1.hasText的值为:(),验证失败原因:=>不能为空], [apiWithValidateParams.arg1.maxTen的值为:(11),验证失败原因:=>最大不能超过10] 
-
+```
 
 ## 部署/运行Servlet容器版本要求:
 

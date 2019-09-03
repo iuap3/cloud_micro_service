@@ -6,11 +6,11 @@
 
 ## 客户端调用方拦截插件
 
-1. 编写客户端调用方拦截插件(其中包名为示例, 应根据项目变动):
+1. 编写插件，其中包名根据项目随意变动:
 		
 		package com.yonyou.xbiz.plugin;
 
-		public class XBizBeforeInvokePlugin implements IBeforeInvoke {
+		public class DubboBeforeInvokePlugin implements IBeforeInvoke {
 
 			@Override
 			public String getPluginName() {
@@ -28,33 +28,37 @@
 				RPCRequest rpcRequest = req.getRequest(RPCRequest.class);
 				RemoteInvocation remoteInvocation = rpcRequest.getRemoteInvocation();
 
-				//这里填写需要添加自定义上下文及对应值
-				remoteInvocation.addAttribute("ctxCode", "自定义上下文Code");
-				remoteInvocation.addAttribute("bizCode", "自定义其他业务上下文");
+				//这里填写需要添加上下文名称testcode1，testcode2及对应值
+				remoteInvocation.addAttribute("testcode1", true);
+				remoteInvocation.addAttribute("testcode2", "true");
 
 
 				chain.run(req, resp, chain);
     		}
 		}
 
-2. 注册插件：在src/main/resources下新建META-INF/services文件夹下新建com.yonyou.cloud.middleware.iris.IBeforeInvoke 文件，文件内容为上述插件的全类名:
+2. 注册插件：在src/main/resources下新建META-INF/services文件夹下新建com.yonyou.cloud.middleware.iris.IBeforeInvoke 文件，文件内容:
 
->com.yonyou.xbiz.plugin.XBizBeforeInvokePlugin
+>com.xxx.BeforeInvokePlugin
 
 ## 服务端接收方拦截插件
-1.	编写服务端接收方拦截插件(其中包名为示例, 应根据项目变动):
+1.	编写插件，其中包名根据项目随意变动
 
 		package com.yonyou.xbiz.plugin;
 
-		public class XBizExecuteBeforePlugin implements IBeforeExecute {
+		public class DubboFilterExecuteBefore implements IBeforeExecute {
 
     		@Override
     		public void run(InvokeRequest invokeRequest, InvokeResponse invokeResponse, InvokeChain invokeChain) {
         		RemoteInvocation remoteInvocation = invokeRequest.getAttribute(IrisConstans.METHOD_INVOCATION, RemoteInvocation.class);
 
-				//这里编写对于调用方传入的属性的处理过程，依然以ctxCode及bizCode为例
-				String ctxCode = remoteInvocation.getAttribute("ctxCode");
-				String bizCode = remoteInvocation.getAttribute("bizCode");
+				//这里编写对于调用方传入的属性的处理过程，依然以testcode1及testcode2为例
+				boolean dubboFuse = null != remoteInvocation.getAttribute("testcode1") && (boolean) remoteInvocation.getAttribute("testcode1");
+       		 	if (testcode1) {
+            		MetaBeanFactory.destroyThreadLocalAware();
+            		String token= null == remoteInvocation.getAttribute("testcode2") ? null : (String) remoteInvocation.getAttribute("testcode2");
+            		AppContext.getToken();
+            		if(null!=token) AppContext.setToken(token);
         		}
 				//处理过程编写完成，下方内容保持不变。
 
@@ -74,6 +78,6 @@
 
 
 
-2.	注册插件：在src/main/resources下新建META-INF/services文件夹下新建 com.yonyou.cloud.middleware.iris.IBeforeExecute 文件, 文件内容为上述插件的全类名:
+2.	注册插件：在src/main/resources下新建META-INF/services文件夹下新建 com.yonyou.cloud.middleware.iris.IBeforeExecute 文件, 文件内容:
 
->com.yonyou.xbiz.plugin.XBizExecuteBeforePlugin
+>com.yonyoucloud.uretail.middleware.filter.xxxBefore

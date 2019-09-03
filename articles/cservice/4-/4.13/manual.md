@@ -6,6 +6,7 @@
     
 
 ## 配置项
+
 <table border="1px" align="left" bordercolor="black" width="80%" height="100px">
 <tr align="left"><td>配置项（前缀app.metainfo.monitor.）</td><td>默认值</td><td>说明</td></tr>
 <tr align="left">  <td>reportConnectTimeout</td><td>300</td>  <td>okhttp connectTimeout</td>   </tr>

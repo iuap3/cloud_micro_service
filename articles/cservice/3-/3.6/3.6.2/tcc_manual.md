@@ -38,6 +38,7 @@ TccTransaction是一个没有事务协调器、没有事务中心概念，事务
 
 ## 数据库模型:
 Tcc事务框架要求每个事务节点各自记录事务信息，通过以下两个表记录事务及事务调用关系
+
 <br>**1.tcctransation表：记录当前业务参与的事务上下文及状态信息**
 <table border="1px" align="left" bordercolor="black" width="80%">
 <tr align="left"><td>字段名字</td><td>字段类型</td><td>备注</td></tr>
@@ -82,8 +83,8 @@ CONFIRMED(成功确认后的状态)
 <tr align="left"><td>parent_pk</td> <td>bigint</td> <td>上级事务pk</td> </tr> 
 <tr align="left"><td>invocation</td> <td>blob</td> <td>rpc上下文</td> </tr> 
 </table>
-<br><br><br>
-*  要使用tcc事务，需要引入sdk、eos及tcc框架，且需要在业务数据库中创建eos和tcc相关的数据库表
+
+* 要使用tcc事务，需要引入sdk、eos及tcc框架，且需要在业务数据库中创建eos和tcc相关的数据库表
    引入eos框架后，应用启动后悔自动创建以下几个数据库表：<br/>
    tm_locks<br/>
    tm_mqerror<br/>
@@ -99,7 +100,7 @@ CONFIRMED(成功确认后的状态)
    .........<br/>
    tcc_transaction_20181226<br/>
    .........<br/>
-   其中tcc_transaction_*与tcc_transaction_rel*用了分表策略，由tcc框架自动提前创建，默认提前创建十天的表
+   其中tcc_transaction_*与tcc_transaction_rel*用了分表策略，由tcc框架自动提前创建，默认提前创建十天的表<br/>
 
 ## TccTransaction事务场景
 * TccTransaction分布式事务框架解决rpc链式同步调用事务一致性

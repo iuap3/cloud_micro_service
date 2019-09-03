@@ -10,7 +10,7 @@
 
 	<groupId>com.yonyou.cloud</groupId>
 	<artifactId>auth-sdk-client</artifactId>
-	<version>1.0.15-SNAPSHOT</version>
+	<version>1.0.16-SNAPSHOT</version>
 
 第二步，在Spring中初始化com.yonyou.cloud.auth.sdk.client.AuthSDKClient对象。
 
@@ -165,12 +165,15 @@
     	<url-pattern>/api/*</url-pattern>
     </filter-mapping>
 
-第三步，在classpath下配置application.properties文件中配置认证中心地址accesscenter\_sign\_url:
+第三步，在classpath下配置application.properties文件中配置认证中心地址
 
-	# 线上环境地址：https://developer.yonyoucloud.com/accesscenter/api/v1/access/signkey
-	# 测试环境地址：http://172.20.27.27/accesscenter/api/v1/access/signkey
-	accesscenter_sign_url=上述 线上 或 测试地址
+	accesscenter_sign_url=http://xxx.com
 
+线上环境地址：https://developer.yonyoucloud.com/accesscenter/api/v1/access/signkey
+
+测试环境地址：http://172.20.27.27/accesscenter/api/v1/access/signkey
+
+第四步，配置键accesscenter\_sign\_url
 
 ###读取顺序：
 

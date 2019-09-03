@@ -36,48 +36,10 @@ EOS 充分利用快速的异步消息和本地事务，并在此基础上提供�
 * 第一步：开发公共接口,maven工程
 
      ```
-          <parent>
-		    <groupId>com.yonyou.cloud</groupId>
-		    <artifactId>rpceos-demosi</artifactId>
-		    <version>5.2.1-RELEASE</version>
-	     </parent>
-	     <artifactId>rpcprovider-pubapi</artifactId>
-	     <packaging>jar</packaging>
-          <!--引入eos-->
-		<dependency>
-			<groupId>com.yonyou.cloud.middleware</groupId>
-			<artifactId>eos-spring-support</artifactId>
-			<version>${eos-spring-support.version}</version>
-		</dependency>
-		 <!--引入sdk-->
-		<dependency>
-			<groupId>com.yonyou.cloud.middleware</groupId>
-			<artifactId>mwclient</artifactId>
-			<version>${mw.version}</version>
-			<type>pom</type>
-		</dependency>
-
-     /**
-       * rpcprovider 接口
-       * @author Administrator
-       *
-       */
-     @RemoteCall("rpcprovider@c87e2267-1001-4c70-bb2a-ab41f3b81aa3")
-     public interface IService {
-
-	  @ApiOperation(value="echo服务", response=String.class)
-	  @Async
-	  public abstract String cancelOrder(String echo);
-     }
-    	```
-
-* 第二步：开发服务端项目,maven工程
-
-     ```
 	<parent>
 		<groupId>com.yonyou.cloud</groupId>
 		<artifactId>rpceos-demosi</artifactId>
-	<version>5.2.1-RELEASE</version>
+	<version>5.1.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>rpcprovider-pubapi</artifactId>
 	<packaging>jar</packaging>
@@ -108,14 +70,62 @@ EOS 充分利用快速的异步消息和本地事务，并在此基础上提供�
 	  public abstract String cancelOrder(String echo);
      }
     	```
-   
-* 第三步：开发客户端项目,maven工程
 
-    ```
+* 第二步：开发服务端项目,maven工程
+
+```
 	<parent>
 		<groupId>com.yonyou.cloud</groupId>
 		<artifactId>rpceos-demos</artifactId>
-		<version>5.2.1-RELEASE</version>
+		<version>5.1.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>rpcprovider-pubapi</artifactId>
+	<packaging>jar</packaging>
+	<!--引入eos-->
+	<dependency>
+		<groupId>com.yonyou.cloud.middleware</groupId>
+		<artifactId>eos-spring-support</artifactId>
+		<version>${eos-spring-support.version}</version>
+	</dependency>
+
+	<!--引入sdk-->
+	<dependency>
+		<groupId>com.yonyou.cloud.middleware</groupId>
+		<artifactId>mwclient</artifactId>
+		<version>${mw.version}</version>
+		<type>pom</type>
+	</dependency>
+
+	<!--引入公共接口-->
+	<dependency>
+		<groupId>com.yonyou.cloud</groupId>
+		<artifactId>rpcprovider-pubapi</artifactId>
+		<version>5.1.1-SNAPSHOT</version>
+	</dependency>
+
+      /**
+      * rpcprovider 接口实现
+      * @author Administrator
+      *
+      */
+      @RemoteCall("rpcprovider@c87e2267-1001-4c70-bb2a-ab41f3b81aa3")
+      public class ServiceImpl implements IService {
+      
+		@ApiOperation(value="echo服务", response=String.class)
+		@Async
+	  	public  String cancelOrder(String echo) {
+	      		return "hello" + echo;
+	  	}
+       }
+```
+   
+* 第三步：开发客户端项目,maven工程
+
+   ```
+	<parent>
+		<groupId>com.yonyou.cloud</groupId>
+		<artifactId>rpceos-demos</artifactId>
+		<version>5.1.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>rpcprovider-pubapi</artifactId>
 	<packaging>jar</packaging>
@@ -138,7 +148,7 @@ EOS 充分利用快速的异步消息和本地事务，并在此基础上提供�
 	<dependency>
 		<groupId>com.yonyou.cloud</groupId>
 		<artifactId>rpcprovider-pubapi</artifactId>
-		<version>5.2.1-RELEASE</version>
+		<version>5.1.1-SNAPSHOT</version>
         </dependency>
    ```
 

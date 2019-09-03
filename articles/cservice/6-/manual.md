@@ -20,23 +20,23 @@
 
 ### 3：SDK 组件依赖问题
 
-开发者可以从已有的工程进行改造，来生成新的支持微服务调用的工程，原工程中可能存在旧版本的微服务的SDK和旧版本的IUAP组件，5.2.1-RELEASE版本引用的各个组件的版本如下，可以帮助开发者排查依赖.
+开发者可以从已有的工程进行改造，来生成新的支持微服务调用的工程，原工程中可能存在旧版本的微服务的SDK和旧版本的IUAP组件，5.1.1-RELEASE版本引用的各个组件的版本如下，可以帮助开发者排查依赖.
 
 
-- mwclient 5.2.1-RELEASE pom类型
-- middleware 5.2.1-RELEASE pom类型
+- mwclient 5.1.1-RELEASE pom类型
+- middleware 5.1.1-RELEASE pom类型
 - iuap 3.2.1-SNAPSHOT
 - auth-sdk-client 1.0.15-SNAPSHOT
-- iris-springboot-support 5.2.1-RELEASE
-- iris-iuap-support 5.2.1-RELEASE
-- iris-dubbox-support 5.2.1-RELEASE
-- eos-spring-support 5.2.1-RELEASE
+- iris-springboot-support 5.1.1-RELEASE
+- iris-iuap-support 5.1.1-RELEASE
+- iris-dubbox-support 5.1.1-RELEASE
+- eos-spring-support 5.1.1-RELEASE
 
 ### 4：工程更新，pom.xml中依赖更新不到
 
 微服务治理平台提供的SDK默认存放的Maven仓库地址为maven.yonyou.com，用友办公网可直接访问，如果不能访问用友办公网，请通过其他渠道购买或者获得相关组件后，推送到私有的Maven仓库中使用。
 
-### 5：提示服务验证失败.请确认accessKey 和application.name的正确性!
+### 5：提示服务验证失败.请确认accessKey 和application.name的正确性! 
 
 - 输入的access.key和access.secret不一致或者错误
 - 此AccessKey已被停用或者删除
@@ -131,7 +131,7 @@ mw_profiles_active的值建议修改成dev、test、stage、online，分别对�
 
 
 ### 8. 本地启动test环境
-> 本地启动时会把本地启动的服务注册到注册中心，这样会被调用方发现并调用。
+> 本地启动时会把本地启动的服务注册到注册中心，这样会被调用方发现并调用。 
 
 解决方案(任选其一)：
 
@@ -158,7 +158,7 @@ mw_profiles_active的值建议修改成dev、test、stage、online，分别对�
 
 注意：在后续即将发布的5.2.1+版本会增加实时上下线通知的功能, 从根本上解决该问题.
 
-### 10.关于jetty下启动慢的问题
+### 10.关于启动慢的问题
 
 原因：
 >jetty启动的情况下，未正确配置jetty-context.xml
@@ -167,22 +167,22 @@ mw_profiles_active的值建议修改成dev、test、stage、online，分别对�
 
 第一步：配置jetty版本：
 
-	<jetty.version>9.4.18.v20190429</jetty.version>
+	9.4.18.v20190429
 
 第二步：配置jetty依赖：
 
-	<dependency>
-	    <groupId>org.eclipse.jetty</groupId>
-	    <artifactId>jetty-webapp</artifactId>
-	    <version>${jetty.version}</version>
-		<scope>test</scope>
-		<exclusions>
-			<exclusion>
-				<groupId>javax.servlet</groupId>
-				<artifactId>servlet-api</artifactId>
-			</exclusion>
-		</exclusions>
-	</dependency>
+		<dependency>
+		    <groupId>org.eclipse.jetty</groupId>
+		    <artifactId>jetty-webapp</artifactId>
+		    <version>${jetty.version}</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
 第三步：配置jetty插件：
 
@@ -212,17 +212,3 @@ mw_profiles_active的值建议修改成dev、test、stage、online，分别对�
 [webdefault.xml](https://developer.yonyoucloud.com/download/microservice/jetty-config/webdefault.xml)
 
 [jetty-context.xml](https://developer.yonyoucloud.com/download/microservice/jetty-config/jetty-context.xml)
-
-### 11.关于升级5.2.1版本后eureka-client参数设置问题
-
-eureka-client的两个参数，一个涉及心跳的，一个涉及拉取变化。
-
-心跳对应的参数在5.2.1版本之前设置为iris.client.cacheRefresh.exponentialBackOffBound，5.2.1版本设置为eureka.client.cacheRefresh.exponentialBackOffBound。5.2.1版本也提供在配置文件中声明app.metainfo.iris.client.heartbeat.exponentialBackOffBound的方式。
-
-拉取变化对应的参数在5.2.1版本之前设置为iris.client.heartbeat.exponentialBackOffBound，5.2.1版本设置为eureka.client.heartbeat.exponentialBackOffBound。
-
-### 12.eos-spring-support、tcc版本与SDK版本不匹配问题
-
-tcc和eos-spring-support版本升级为5.2.1后，SDK版本必须也升级到5.2.1，否则启动时将会出现如下异常：
-
-![](images/tccError.png)
