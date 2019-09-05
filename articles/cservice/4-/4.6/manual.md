@@ -74,7 +74,7 @@
 
 在配置文件application.properties中加入配置
 	
-app.version=你的版本号
+app.tag=你的版本号
 
 例子
 	
@@ -82,7 +82,7 @@ app.version=你的版本号
 	access.secret=*********************
 	spring.application.name=rpc-provider-test
 	spring.profiles.active=dev
-	app.version=3.0
+	app.tag=3.0
 
 
 **线程上下文**
